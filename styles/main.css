@@ -21,6 +21,10 @@ body{
     box-shadow: 5px 5px 2px 1px;
 }
 
+.columns{
+    padding: 0 15vw;
+}
+
 #background-image{
     background-image:url("/images/example.png");
     height: 500px;
@@ -34,5 +38,7 @@ body{
 }
 
 @media only screen and (max-width: 600px){
-
+    .columns{
+        padding: 0 50px;
+    }
 }
