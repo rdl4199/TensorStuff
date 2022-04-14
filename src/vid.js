@@ -107,6 +107,7 @@ function draw() {
         doodleNet.classify(drawCanvas, predict);
       }
     }
+    //https://www.section.io/engineering-education/machine-learning-image-classification-with-javascript-and-nyckel/
     //console.log(rightHand);
     // let eyeR = pose.rightEye;
     // let eyeL = pose.leftEye;
