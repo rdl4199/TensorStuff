@@ -22,6 +22,8 @@ let doodleNet;
 let viewResult
 let results;
 
+
+
 function setup() {
   
   canvas = document.querySelector("#main-canvas");
@@ -31,8 +33,8 @@ function setup() {
   canvas = document.querySelector("#user-canvas");
   ctxUser = canvas.getContext("2d");
 
-  lastX = 320;
-  lastY = 240;
+  lastX = 300;
+  lastY = 300;
   lastConfidence = 100;
   video = createCapture(VIDEO);
   //video.hide();
