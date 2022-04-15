@@ -79,12 +79,8 @@ function draw() {
         move = true;
       }
     }
-<<<<<<< HEAD
     //https://www.section.io/engineering-education/machine-learning-image-classification-with-javascript-and-nyckel/
     //console.log(rightHand);
-=======
-    console.log(rightHand);
->>>>>>> parent of ab7dc77 (Pushing attempts to make doodlenet work)
     // let eyeR = pose.rightEye;
     // let eyeL = pose.leftEye;
     // let d = dist(eyeR.x, eyeR.y, eyeL.x, eyeL.y);
