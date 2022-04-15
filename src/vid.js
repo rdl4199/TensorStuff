@@ -15,8 +15,6 @@ let laxtY;
 let lastConfidence;
 let move;
 
-
-
 function setup() {
   createCanvas(640, 480);
   canvas = document.querySelector("#main-canvas");
@@ -26,8 +24,8 @@ function setup() {
   canvas = document.querySelector("#user-canvas");
   ctxUser = canvas.getContext("2d");
 
-  lastX = 300;
-  lastY = 300;
+  lastX = 320;
+  lastY = 240;
   lastConfidence = 100;
   video = createCapture(VIDEO);
   video.hide();
