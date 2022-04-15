@@ -4,10 +4,6 @@ let pose;
 let skeleton;
 
 let canvas;
-
-//delete later
-let drawCanvas;
-
 let ctxMain;
 let ctxDraw;
 let ctxUser;
@@ -18,18 +14,15 @@ let lastX;
 let laxtY;
 let lastConfidence;
 let move;
-let doodleNet;
-let viewResult
-let results;
 
 
 
 function setup() {
-  
+  createCanvas(640, 480);
   canvas = document.querySelector("#main-canvas");
   ctxMain = canvas.getContext("2d");
-  drawCanvas = document.querySelector("#draw-canvas")
-  ctxDraw = drawCanvas.getContext("2d");
+  canvas = document.querySelector("#draw-canvas");
+  ctxDraw = canvas.getContext("2d");
   canvas = document.querySelector("#user-canvas");
   ctxUser = canvas.getContext("2d");
 
@@ -37,17 +30,15 @@ function setup() {
   lastY = 300;
   lastConfidence = 100;
   video = createCapture(VIDEO);
-  //video.hide();
+  video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
   move = true;
-  lineWidth = 10;
+  lineWidth = 0.5;
   strokeStyle = "black";
   fillStyle = "black"
-  doodleNet = ml5.imageClassifier("DoodleNet", doodleLoaded)
-  viewResult = document.querySelector("#results");
+  
 }
-
 
 function gotPoses(poses) {
   //console.log(poses);
@@ -61,33 +52,13 @@ function modelLoaded() {
   console.log('poseNet ready');
 }
 
-function doodleLoaded() {
-  console.log("Doodle Loaded");
-}
-
-function predict() {
-  results = doodleNet.predict(drawCanvas, predictComplete);
-  //console.log(results);
-}
-
-function predictComplete(error, results)
-{
-  if(error)
-  {
-    console.log(error);
-  } else {
-    //console.log(results);
-    viewResult.innerHTML = `${results[0].label} with ${results[0].confidence.toFixed(4)} confidence`
-  }
-}
-
 function draw() {
   //ctxMain.drawImage(video, 0, 0, 640, 480);
 
   if (pose) {
     let rightHand = pose.rightWrist;
     let leftHand = pose.leftWrist;
-    ctxDraw.lineWidth = lineWidth;
+    ctxDraw.lineWidth = 0.5;
     ctxDraw.strokeStyle = strokeStyle;
     ctxDraw.fillStyle = fillStyle;
     if(move)
@@ -106,18 +77,21 @@ function draw() {
         lastX = rightHand.x;
         lastY = rightHand.y;
         move = true;
-        doodleNet.classify(drawCanvas, predict);
       }
     }
+<<<<<<< HEAD
     //https://www.section.io/engineering-education/machine-learning-image-classification-with-javascript-and-nyckel/
     //console.log(rightHand);
+=======
+    console.log(rightHand);
+>>>>>>> parent of ab7dc77 (Pushing attempts to make doodlenet work)
     // let eyeR = pose.rightEye;
     // let eyeL = pose.leftEye;
     // let d = dist(eyeR.x, eyeR.y, eyeL.x, eyeL.y);
     // fill(255, 0, 0);
     // ellipse(pose.nose.x, pose.nose.y, d);
     // fill(0, 0, 255);
-    //ellipse(rightHand.x, rightHand.y, 32);
+    ellipse(rightHand.x, rightHand.y, 32);
     // ellipse(pose.leftWrist.x, pose.leftWrist.y, 32);
 
     // for (let i = 0; i < pose.keypoints.length; i++) {
