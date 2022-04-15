@@ -33,7 +33,7 @@ function setup() {
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
   move = true;
-  lineWidth = 0.5;
+  lineWidth = 1.0;
   strokeStyle = "black";
   fillStyle = "black";
   
@@ -96,7 +96,7 @@ function draw() {
     // fill(255, 0, 0);
     // ellipse(pose.nose.x, pose.nose.y, d);
     // fill(0, 0, 255);
-    ellipse(rightHand.x, rightHand.y, 32);
+    // ellipse(rightHand.x, rightHand.y, 32);
     // ellipse(pose.leftWrist.x, pose.leftWrist.y, 32);
 
     // for (let i = 0; i < pose.keypoints.length; i++) {
@@ -154,7 +154,6 @@ const getMouse = (evt) => {
 };
 
 const doMousedown = (evt) => {
-  console.log(evt.type);
   dragging = true;
 
   //get mouse location in canvas coords
@@ -186,14 +185,12 @@ const doMousemove = (evt) => {
 };
 
 const doMouseup = (evt) => {
-  console.log(evt.type);
   dragging = false;
   ctxDraw.closePath();
 };
 
 // if the user drags out of the canvas
 const doMouseout = (evt) => {
-  console.log(evt.type);
   dragging = false;
   ctxDraw.closePath();
 };
