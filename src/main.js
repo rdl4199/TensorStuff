@@ -18,7 +18,5 @@ if (document.querySelector("app-navbar").id == "nav-app") {
     //video.init();
 }
 
-
-
 //save extras to local storage.
 //storage.localStorageRequirement();

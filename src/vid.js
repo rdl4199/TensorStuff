@@ -14,6 +14,7 @@ let lastX;
 let laxtY;
 let lastConfidence;
 let move;
+let dragging = false;
 
 function setup() {
   createCanvas(640, 480);
@@ -34,8 +35,18 @@ function setup() {
   move = true;
   lineWidth = 0.5;
   strokeStyle = "black";
-  fillStyle = "black"
+  fillStyle = "black";
   
+  
+  document.querySelector("#draw-canvas").onmousedown = doMousedown;
+  document.querySelector("#draw-canvas").onmousemove = doMousemove;
+  document.querySelector("#draw-canvas").onmouseup = doMouseup;
+  document.querySelector("#draw-canvas").onmouseout = doMouseout;
+
+  document.querySelector("#linewidth-chooser").onchange = doLineWidthChange;
+  document.querySelector("#strokestyle-chooser").onchange = doLineColorChange;
+  document.querySelector("#btn-clear").onclick = doClear;
+  document.querySelector("#btn-export").onclick = doExport;
 }
 
 function gotPoses(poses) {
@@ -56,7 +67,7 @@ function draw() {
   if (pose) {
     let rightHand = pose.rightWrist;
     let leftHand = pose.leftWrist;
-    ctxDraw.lineWidth = 0.5;
+    ctxDraw.lineWidth = lineWidth;
     ctxDraw.strokeStyle = strokeStyle;
     ctxDraw.fillStyle = fillStyle;
     if(move)
@@ -104,3 +115,86 @@ function draw() {
     // }
   }
 }
+
+/*Functions for UI*/
+const doLineWidthChange = (evt) => {
+  lineWidth = evt.target.value;
+};
+
+const doLineColorChange = (evt) => {
+  strokeStyle = evt.target.value;
+};
+
+//Clears ctxDraw
+const doClear = () => {
+  ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
+  ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
+  ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
+};
+
+const doExport = () => {
+  // convert the canvas to a JPEG and download it
+  // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
+  const data = canvas.toDataURL("image/jpeg", 1.0);
+  const link = document.createElement("a");
+  link.download = "exported-image.jpg";
+  link.href = data;
+  link.click();
+  link.remove();
+};
+/*End Functions for UI*/
+
+
+//Functions for using the mouse to draw.
+const getMouse = (evt) => {
+	const mouse = {};
+	mouse.x = evt.pageX - evt.target.offsetLeft;
+	mouse.y = evt.pageY - evt.target.offsetTop;
+	return mouse;
+};
+
+const doMousedown = (evt) => {
+  console.log(evt.type);
+  dragging = true;
+
+  //get mouse location in canvas coords
+  const mouse = getMouse(evt);
+
+  //pencil
+  ctxDraw.beginPath();
+
+  //move to x,y of mouse
+  ctxDraw.lineTo(mouse.x, mouse.y);
+};
+
+const doMousemove = (evt) => {
+  //if mouse not down, bail
+  if (!dragging) return;
+
+  //get mouse location
+  const mouse = getMouse(evt);
+
+  //pencil
+  ctxDraw.strokeStyle = strokeStyle;
+  ctxDraw.lineWidth = lineWidth;
+
+  //draw line to x,y
+  ctxDraw.lineTo(mouse.x, mouse.y);
+
+  //stoke line
+  ctxDraw.stroke();
+};
+
+const doMouseup = (evt) => {
+  console.log(evt.type);
+  dragging = false;
+  ctxDraw.closePath();
+};
+
+// if the user drags out of the canvas
+const doMouseout = (evt) => {
+  console.log(evt.type);
+  dragging = false;
+  ctxDraw.closePath();
+};
+//End Functions for using the mouse to draw.
