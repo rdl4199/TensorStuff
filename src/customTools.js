@@ -7,7 +7,7 @@ template_tools.innerHTML = `
 
 </style>
     <!--Painting Controls-->
-        <div id="controls">
+        <div class="box" id="controls">
             <label>Tool:
                 <select id="tool-chooser">
                     <option value="tool-pencil" selected>Pencil</option>
@@ -15,7 +15,34 @@ template_tools.innerHTML = `
                     <option value="tool-fill">Fill</option>
                 </select>
             </label>
+            
     
+            <div class="dropdown">
+            <div class="dropdown-trigger">
+              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                <span id="currentTool">Pencil</span>
+                <span class="icon is-small">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+              <div class="dropdown-content" id="tool-chooser">
+                <a class="dropdown-item is-active" value="tool-pencil">
+                  Pencil
+                </a>
+                <a class="dropdown-item" value="tool-eraser">
+                  Eraser
+                </a>
+                <a class="dropdown-item" value="tool-fill">
+                  Fill
+                </a>
+              </div>
+            </div>
+          </div>
+
+
+
             <label>Stroke Color: 
                 <select id="strokestyle-chooser">
                     <option value="black" selected>Black</option>
@@ -62,6 +89,12 @@ class appToolbar extends HTMLElement{
       this.shadowRoot.querySelector("#strokestyle-chooser").onchange = doLineColorChange;
       this.shadowRoot.querySelector("#btn-clear").onclick = doClear;
       this.shadowRoot.querySelector("#btn-export").onclick = doExport;
+
+      let dropdown = this.shadowRoot.querySelector('.dropdown');
+        dropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+        dropdown.classList.toggle('is-active');
+        });
     }
 
     render(){
