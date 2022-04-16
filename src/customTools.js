@@ -7,44 +7,19 @@ template_tools.innerHTML = `
 
 </style>
     <!--Painting Controls-->
-        <div class="box" id="controls">
-            <label>Tool:
-                <select id="tool-chooser">
+        <div class="box px-6" id="controls">
+            <label class="tag is-link is-large is-vcentered py-5">Tool:
+            <div>
+                <select class="button px-2 ml-3" id="tool-chooser">
                     <option value="tool-pencil" selected>Pencil</option>
                     <option value="tool-eraser">Eraser</option>
                     <option value="tool-fill">Fill</option>
                 </select>
+            </div>
             </label>
-            
-    
-            <div class="dropdown">
-            <div class="dropdown-trigger">
-              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
-                <span id="currentTool">Pencil</span>
-                <span class="icon is-small">
-                  <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-              </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu3" role="menu">
-              <div class="dropdown-content" id="tool-chooser">
-                <a class="dropdown-item is-active" value="tool-pencil">
-                  Pencil
-                </a>
-                <a class="dropdown-item" value="tool-eraser">
-                  Eraser
-                </a>
-                <a class="dropdown-item" value="tool-fill">
-                  Fill
-                </a>
-              </div>
-            </div>
-          </div>
 
-
-
-            <label>Stroke Color: 
-                <select id="strokestyle-chooser">
+            <label class="tag is-link is-large is-vcentered py-5">Stroke Color:
+                <select class="button px-2 ml-3" id="strokestyle-chooser">
                     <option value="black" selected>Black</option>
                     <option value="red">Red</option>
                     <option value="green">Green</option>
@@ -52,8 +27,8 @@ template_tools.innerHTML = `
                 </select>
             </label>
     
-            <label>Line Width: 
-                  <select id="linewidth-chooser">
+            <label class="tag is-link is-large is-vcentered py-5">Line Width:
+                  <select class="button px-4 ml-3" id="linewidth-chooser">
               <option value="1" selected>1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -67,8 +42,8 @@ template_tools.innerHTML = `
                 </select>
             </label>
             
-            <span><input id="btn-clear" type="button" value="Clear"/></span>
-            <span><input id="btn-export" type="button" value="Export"/></span>
+            <span><input class="button px-5 mx-2 is-pulled-right is-danger" id="btn-clear" type="button" value="Clear"/></span>
+            <span><input class="button px-5 mx-1 is-pulled-right is-primary" id="btn-export" type="button" value="Export"/></span>
         </div>
     <!--End Painting Controls-->
 `;
@@ -89,12 +64,6 @@ class appToolbar extends HTMLElement{
       this.shadowRoot.querySelector("#strokestyle-chooser").onchange = doLineColorChange;
       this.shadowRoot.querySelector("#btn-clear").onclick = doClear;
       this.shadowRoot.querySelector("#btn-export").onclick = doExport;
-
-      let dropdown = this.shadowRoot.querySelector('.dropdown');
-        dropdown.addEventListener('click', function(event) {
-        event.stopPropagation();
-        dropdown.classList.toggle('is-active');
-        });
     }
 
     render(){
