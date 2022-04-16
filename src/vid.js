@@ -42,11 +42,6 @@ function setup() {
   document.querySelector("#draw-canvas").onmousemove = doMousemove;
   document.querySelector("#draw-canvas").onmouseup = doMouseup;
   document.querySelector("#draw-canvas").onmouseout = doMouseout;
-
-  document.querySelector("#linewidth-chooser").onchange = doLineWidthChange;
-  document.querySelector("#strokestyle-chooser").onchange = doLineColorChange;
-  document.querySelector("#btn-clear").onclick = doClear;
-  document.querySelector("#btn-export").onclick = doExport;
 }
 
 function gotPoses(poses) {

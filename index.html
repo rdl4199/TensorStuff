@@ -16,44 +16,7 @@
         <canvas width="640" height="480" id="draw-canvas"></canvas>
         <p id="results"></p>
 
-        <!--Painting Controls-->
-        <div id="controls">
-            <label>Tool:
-                <select id="tool-chooser">
-                    <option value="tool-pencil" selected>Pencil</option>
-                    <option value="tool-eraser">Eraser</option>
-                    <option value="tool-fill">Fill</option>
-                </select>
-            </label>
-    
-            <label>Stroke Color: 
-                <select id="strokestyle-chooser">
-                    <option value="black" selected>Black</option>
-                    <option value="red">Red</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue</option>
-                </select>
-            </label>
-    
-            <label>Line Width: 
-                  <select id="linewidth-chooser">
-              <option value="1" selected>1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-                </select>
-            </label>
-            
-            <span><input id="btn-clear" type="button" value="Clear"/></span>
-            <span><input id="btn-export" type="button" value="Export"/></span>
-        </div>
-        <!--End Painting Controls-->
+        <app-toolbar></app-toolbar>
 
         <script src="src/vid.js"></script>
     </body>

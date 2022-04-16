@@ -1,5 +1,5 @@
 import "./customFooter.js";
-//import "./customHeader.js";
+import "./customTools.js";
 import "./customNav.js";
 //import * as storage from "./localStorage.js";
 import * as video from "./vid.js";
