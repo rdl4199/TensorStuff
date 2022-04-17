@@ -30,7 +30,7 @@ function setup() {
   lastY = 240;
   lastConfidence = 100;
   video = createCapture(VIDEO);
-  //video.hide();
+  video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
   move = true;

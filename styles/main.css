@@ -26,8 +26,13 @@ body{
 }
 
 #background-image{
-    background-image:url("/images/example.png");
+    margin-top: 0px;
+    padding: 0;
+    margin: 0;
+    background-image:url("/images/pogCamerawork.jpg");
+    background-repeat: round;
     height: 500px;
+    width: 100%;
 }
 
 #btn-image:hover{
