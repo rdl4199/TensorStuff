@@ -30,7 +30,7 @@ function setup() {
   lastY = 240;
   lastConfidence = 100;
   video = createCapture(VIDEO);
-  video.hide();
+  //video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
   move = true;
@@ -62,6 +62,13 @@ function modelLoaded() {
 
 function draw() {
   //ctxMain.drawImage(video, 0, 0, 640, 480);
+
+  // // vertical-flip
+  // ctxMain.scale(1, -1);
+  // ctxMain.translate(0, -canvas.height);
+  // ctxMain.drawImage(video, 0, 0);
+  // // reset the transform-matrix
+  // ctxMain.setTransform(1, 0, 0, 1, 0, 0);
 
   //Adds 1px black border.
   drawBorder();
