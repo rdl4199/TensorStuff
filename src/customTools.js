@@ -60,6 +60,7 @@ class appToolbar extends HTMLElement{
       this.div = this.shadowRoot.querySelector("div");
       this.render();
 
+      this.shadowRoot.querySelector("#tool-chooser").onchange = doToolChange;
       this.shadowRoot.querySelector("#linewidth-chooser").onchange = doLineWidthChange;
       this.shadowRoot.querySelector("#strokestyle-chooser").onchange = doLineColorChange;
       this.shadowRoot.querySelector("#btn-clear").onclick = doClear;

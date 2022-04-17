@@ -10,6 +10,7 @@ let ctxUser;
 let strokeStyle;
 let fillStyle;
 let lineWidth;
+let lineCap;
 let lastX;
 let laxtY;
 let lastConfidence;
@@ -36,7 +37,10 @@ function setup() {
   lineWidth = 1.0;
   strokeStyle = "black";
   fillStyle = "black";
+  lineCap = "round";
   
+  //set initial border
+  ctxDraw.strokeRect(0,0,canvas.width, canvas.height);
   
   document.querySelector("#draw-canvas").onmousedown = doMousedown;
   document.querySelector("#draw-canvas").onmousemove = doMousemove;
@@ -59,12 +63,16 @@ function modelLoaded() {
 function draw() {
   //ctxMain.drawImage(video, 0, 0, 640, 480);
 
+  //Adds 1px black border.
+  drawBorder();
+
   if (pose) {
     let rightHand = pose.rightWrist;
     let leftHand = pose.leftWrist;
     ctxDraw.lineWidth = lineWidth;
     ctxDraw.strokeStyle = strokeStyle;
     ctxDraw.fillStyle = fillStyle;
+    ctxDraw.lineCap = lineCap;
     if(move)
     {
       ctxDraw.beginPath();
@@ -111,6 +119,15 @@ function draw() {
   }
 }
 
+const drawBorder = e => {
+    //Adds 1px black border.
+    ctxDraw.save();
+    ctxDraw.lineWidth = 1.0;
+    ctxDraw.globalCompositeOperation="source-over";
+    ctxDraw.strokeRect(0,0,canvas.width, canvas.height);
+    ctxDraw.restore();
+}
+
 /*Functions for UI*/
 const doLineWidthChange = (evt) => {
   lineWidth = evt.target.value;
@@ -120,11 +137,47 @@ const doLineColorChange = (evt) => {
   strokeStyle = evt.target.value;
 };
 
+const doToolChange = (evt) => {
+
+  let currentTool = document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value;
+
+  switch(currentTool)
+  {
+    case "tool-pencil":
+      //Ungreys out stroke color box
+      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
+
+      break;
+    case "tool-eraser":
+      //greys out stroke color box
+      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = true;
+
+
+        //Adds 1px black border.
+        drawBorder();
+
+      break;
+      case "tool-fill":
+        //Ungreys out stroke color box
+        document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
+
+        ctxDraw.fillStyle = document.querySelector("app-toolbar").shadowRoot.querySelector("#strokestyle-chooser").value;
+        ctxDraw.fillRect(0,0,canvas.width,canvas.height);
+
+        //reset back to pencil being selected.
+        document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value = "tool-pencil";
+
+      break;
+  }
+}
+
 //Clears ctxDraw
 const doClear = () => {
   ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
   ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
   ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
+
+  drawBorder();
 };
 
 const doExport = () => {
@@ -169,8 +222,16 @@ const doMousemove = (evt) => {
   const mouse = getMouse(evt);
 
   //pencil
+  //if on eraser, color will be disabled, make it white and thick
+  if (document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled) {
+    ctxDraw.globalCompositeOperation="destination-out";
+  }
+  else {
+    ctxDraw.globalCompositeOperation="source-over";
+  }
   ctxDraw.strokeStyle = strokeStyle;
   ctxDraw.lineWidth = lineWidth;
+  ctxDraw.lineCap = "round"; //default is "butt"
 
   //draw line to x,y
   ctxDraw.lineTo(mouse.x, mouse.y);
