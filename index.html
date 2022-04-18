@@ -3,7 +3,8 @@
     <head>
         <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/addons/p5.sound.min.js"></script>
-        <script src="https://unpkg.com/ml5@0.6.0/dist/ml5.min.js"></script>
+        <!-- <script src="https://unpkg.com/ml5@0.6.0/dist/ml5.min.js"></script> -->
+        <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js" type="text/javascript"></script>
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
         <script src="src/main.js" type="module"></script>
@@ -11,9 +12,9 @@
 
     <body>
         <app-navbar id="nav-app"></app-navbar>
-        <canvas width="640" height="480" id="main-canvas"></canvas>
-        <canvas width="640" height="480" id="user-canvas"></canvas>
         <canvas width="640" height="480" id="draw-canvas"></canvas>
+        <canvas width="640" height="480" id="vid-canvas"></canvas>
+        <p id="paused"></p>
         <p id="results"></p>
 
         <app-toolbar></app-toolbar>

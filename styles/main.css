@@ -41,6 +41,9 @@ body{
 #btn-image:active{
     background-color: #9e9e9e;
 }
+#paused{
+    color: red;
+}
 
 li {
     list-style-type:circle;
