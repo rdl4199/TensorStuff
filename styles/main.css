@@ -36,6 +36,9 @@ body{
 #btn-image:active{
     background-color: #9e9e9e;
 }
+#paused{
+    color: red;
+}
 
 @media only screen and (max-width: 600px){
     .columns{
