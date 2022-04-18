@@ -40,7 +40,7 @@ function setup() {
   lineCap = "round";
   
   //set initial border
-  ctxDraw.strokeRect(0,0,canvas.width, canvas.height);
+  drawBorder();
   
   document.querySelector("#draw-canvas").onmousedown = doMousedown;
   document.querySelector("#draw-canvas").onmousemove = doMousemove;
@@ -72,6 +72,20 @@ function draw() {
 
   //Adds 1px black border.
   drawBorder();
+    
+
+  // //circle border on width of drawing/erasing tool, dissapears when user begins to draw. (incomplete)
+  // ctxDraw.save();
+  // ctxDraw.strokeStyle = "black";
+  // ctxDraw.arc(mouse.x, mouse.y, 1, 0, 2 * Math.PI);
+  // ctxDraw.restore();
+
+
+  //possible way to use JSON to store users current drawing,
+  //then bring it back when they reload the page.
+  //Would use the data.json file.
+
+  //https://stackoverflow.com/questions/44806870/saving-canvas-to-json-and-loading-json-to-canvas
 
   if (pose) {
     let rightHand = pose.rightWrist;
@@ -131,6 +145,7 @@ const drawBorder = e => {
     ctxDraw.save();
     ctxDraw.lineWidth = 1.0;
     ctxDraw.globalCompositeOperation="source-over";
+    ctxDraw.strokeStyle = "black";
     ctxDraw.strokeRect(0,0,canvas.width, canvas.height);
     ctxDraw.restore();
 }
@@ -180,22 +195,32 @@ const doToolChange = (evt) => {
 
 //Clears ctxDraw
 const doClear = () => {
-  ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
-  ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
-  ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
 
-  drawBorder();
+  //https://www.w3schools.com/js/js_popup.asp
+
+  if (window.confirm("Clear the image?")) {
+    ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
+    ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
+    ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
+  
+    drawBorder();
+  }
 };
 
 const doExport = () => {
-  // convert the canvas to a JPEG and download it
-  // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
-  const data = canvas.toDataURL("image/jpeg", 1.0);
-  const link = document.createElement("a");
-  link.download = "exported-image.jpg";
-  link.href = data;
-  link.click();
-  link.remove();
+
+  //https://www.w3schools.com/js/js_popup.asp
+
+  if (window.confirm("Export the image?")) {
+    // convert the canvas to a JPEG and download it
+    // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
+    const data = canvas.toDataURL("image/jpeg", 1.0);
+    const link = document.createElement("a");
+    link.download = "exported-image.jpg";
+    link.href = data;
+    link.click();
+    link.remove();
+  }
 };
 /*End Functions for UI*/
 
@@ -205,6 +230,7 @@ const getMouse = (evt) => {
 	const mouse = {};
 	mouse.x = evt.pageX - evt.target.offsetLeft;
 	mouse.y = evt.pageY - evt.target.offsetTop;
+
 	return mouse;
 };
 
