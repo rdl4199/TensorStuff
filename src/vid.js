@@ -22,6 +22,7 @@ let width = 640;
 let height = 480;
 let handpos = [];
 let paused = false;
+let dragging = false;
 
 
 async function setup() {
@@ -43,7 +44,7 @@ async function setup() {
     handpos = results;
   });
   move = true;
-  lineWidth = 10;
+  lineWidth = 1;
   strokeStyle = "black";
   fillStyle = "black";
   lineCap = "round";
