@@ -114,6 +114,8 @@ function draw() {
   // //circle border on width of drawing/erasing tool, dissapears when user begins to draw. (incomplete)
   // ctxDraw.save();
   // ctxDraw.strokeStyle = "black";
+  // ctxDraw.fillStyle = "none";
+  // ctxDraw.lineWidth = 5;
   // ctxDraw.arc(mouse.x, mouse.y, 1, 0, 2 * Math.PI);
   // ctxDraw.restore();
 
@@ -256,10 +258,7 @@ const doClear = () => {
   //https://www.w3schools.com/js/js_popup.asp
 
   if (window.confirm("Clear the image?")) {
-    ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
-    ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
-    //ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
-  
+    clearCanvas();
     drawBorder();
   }
 };
