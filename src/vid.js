@@ -13,8 +13,9 @@ let fillStyle;
 let lineWidth;
 let lineCap;
 let lastX;
-let laxtY;
+let lastY;
 let lastConfidence;
+let lastView;
 let move;
 let resultsView;
 let doodleClassifier;
@@ -196,7 +197,7 @@ function draw() {
   }
 }
 
-const drawBorder = e => {
+const drawBorder = () => {
     //Adds 1px black border.
     ctxDraw.save();
     ctxDraw.lineWidth = 1.0;
@@ -204,7 +205,7 @@ const drawBorder = e => {
     ctxDraw.strokeStyle = "black";
     ctxDraw.strokeRect(0,0,canvas.width, canvas.height);
     ctxDraw.restore();
-}
+};
 
 /*Functions for UI*/
 const doLineWidthChange = (evt) => {
@@ -215,7 +216,7 @@ const doLineColorChange = (evt) => {
   strokeStyle = evt.target.value;
 };
 
-const doToolChange = (evt) => {
+const doToolChange = () => {
 
   let currentTool = document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value;
 
@@ -247,7 +248,7 @@ const doToolChange = (evt) => {
 
       break;
   }
-}
+};
 
 //Clears ctxDraw
 const doClear = () => {
@@ -257,7 +258,7 @@ const doClear = () => {
   if (window.confirm("Clear the image?")) {
     ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
     ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
-    ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
+    //ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
   
     drawBorder();
   }
@@ -329,13 +330,13 @@ const doMousemove = (evt) => {
   ctxDraw.stroke();
 };
 
-const doMouseup = (evt) => {
+const doMouseup = () => {
   dragging = false;
   ctxDraw.closePath();
 };
 
 // if the user drags out of the canvas
-const doMouseout = (evt) => {
+const doMouseout = () => {
   dragging = false;
   ctxDraw.closePath();
 };
