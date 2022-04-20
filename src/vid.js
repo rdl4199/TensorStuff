@@ -15,8 +15,9 @@ let fillStyle;
 let lineWidth;
 let lineCap;
 let lastX;
-let laxtY;
+let lastY;
 let lastConfidence;
+let lastView;
 let move;
 let resultsView;
 let doodleClassifier;
@@ -24,6 +25,7 @@ let width = 640;
 let height = 480;
 let handpos = [];
 let paused = false;
+let dragging = false;
 
 function setup() {
   canvas = document.querySelector("#draw-canvas");
@@ -44,9 +46,19 @@ function setup() {
     handpos = results;
   });
   move = true;
-  lineWidth = 10;
+  lineWidth = 1;
   strokeStyle = "black";
-  fillStyle = "black"
+  fillStyle = "black";
+  lineCap = "round";
+  
+  //set initial border
+  drawBorder();
+  
+  document.querySelector("#draw-canvas").onmousedown = doMousedown;
+  document.querySelector("#draw-canvas").onmousemove = doMousemove;
+  document.querySelector("#draw-canvas").onmouseup = doMouseup;
+  document.querySelector("#draw-canvas").onmouseout = doMouseout;
+
   lastView = document.querySelector("#results");
   doodleClassifier = ml5.imageClassifier('DoodleNet', modelLoaded);
 
@@ -91,6 +103,31 @@ function gotResult(error, results) {
 }
 function draw() {
   //ctxMain.drawImage(video, 0, 0, 640, 480);
+
+  // // vertical-flip
+  // ctxMain.scale(1, -1);
+  // ctxMain.translate(0, -canvas.height);
+  // ctxMain.drawImage(video, 0, 0);
+  // // reset the transform-matrix
+  // ctxMain.setTransform(1, 0, 0, 1, 0, 0);
+
+  //Adds 1px black border.
+  drawBorder();
+    
+
+  // //circle border on width of drawing/erasing tool, dissapears when user begins to draw. (incomplete)
+  // ctxDraw.save();
+  // ctxDraw.strokeStyle = "black";
+  // ctxDraw.arc(mouse.x, mouse.y, 1, 0, 2 * Math.PI);
+  // ctxDraw.restore();
+
+
+  //possible way to use JSON to store users current drawing,
+  //then bring it back when they reload the page.
+  //Would use the data.json file.
+
+  //https://stackoverflow.com/questions/44806870/saving-canvas-to-json-and-loading-json-to-canvas
+
   //console.log(handpos);
   if (handpos.length > 0) {
     let indexFingerTip = handpos[0].annotations.indexFinger[0];
@@ -167,14 +204,15 @@ function draw() {
   }
 }
 
-const drawBorder = e => {
-  //Adds 1px black border.
-  ctxDraw.save();
-  ctxDraw.lineWidth = 1.0;
-  ctxDraw.globalCompositeOperation = "source-over";
-  ctxDraw.strokeRect(0, 0, canvas.width, canvas.height);
-  ctxDraw.restore();
-}
+const drawBorder = () => {
+    //Adds 1px black border.
+    ctxDraw.save();
+    ctxDraw.lineWidth = 1.0;
+    ctxDraw.globalCompositeOperation="source-over";
+    ctxDraw.strokeStyle = "black";
+    ctxDraw.strokeRect(0,0,canvas.width, canvas.height);
+    ctxDraw.restore();
+};
 
 /*Functions for UI*/
 const doLineWidthChange = (evt) => {
@@ -185,7 +223,7 @@ const doLineColorChange = (evt) => {
   strokeStyle = evt.target.value;
 };
 
-const doToolChange = (evt) => {
+const doToolChange = () => {
 
   let currentTool = document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value;
 
@@ -216,36 +254,47 @@ const doToolChange = (evt) => {
 
       break;
   }
-}
+};
 
 //Clears ctxDraw
 const doClear = () => {
-  ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
-  ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
-  ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
 
-  drawBorder();
+  //https://www.w3schools.com/js/js_popup.asp
+
+  if (window.confirm("Clear the image?")) {
+    ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
+    ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
+    //ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
+  
+    drawBorder();
+  }
 };
 
 const doExport = () => {
-  // convert the canvas to a JPEG and download it
-  // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
-  const data = canvas.toDataURL("image/jpeg", 1.0);
-  const link = document.createElement("a");
-  link.download = "exported-image.jpg";
-  link.href = data;
-  link.click();
-  link.remove();
+
+  //https://www.w3schools.com/js/js_popup.asp
+
+  if (window.confirm("Export the image?")) {
+    // convert the canvas to a JPEG and download it
+    // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
+    const data = canvas.toDataURL("image/jpeg", 1.0);
+    const link = document.createElement("a");
+    link.download = "exported-image.jpg";
+    link.href = data;
+    link.click();
+    link.remove();
+  }
 };
 /*End Functions for UI*/
 
 
 //Functions for using the mouse to draw.
 const getMouse = (evt) => {
-  const mouse = {};
-  mouse.x = evt.pageX - evt.target.offsetLeft;
-  mouse.y = evt.pageY - evt.target.offsetTop;
-  return mouse;
+	const mouse = {};
+	mouse.x = evt.pageX - evt.target.offsetLeft;
+	mouse.y = evt.pageY - evt.target.offsetTop;
+
+	return mouse;
 };
 
 const doMousedown = (evt) => {
@@ -287,13 +336,13 @@ const doMousemove = (evt) => {
   ctxDraw.stroke();
 };
 
-const doMouseup = (evt) => {
+const doMouseup = () => {
   dragging = false;
   ctxDraw.closePath();
 };
 
 // if the user drags out of the canvas
-const doMouseout = (evt) => {
+const doMouseout = () => {
   dragging = false;
   ctxDraw.closePath();
 };

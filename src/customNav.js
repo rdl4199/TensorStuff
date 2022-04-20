@@ -7,7 +7,7 @@ template_nav.innerHTML = `
     <!-- logo / brand -->
     <div class="navbar-brand">
       <a class="navbar-item" href="home.html">
-      <img src="/images/color-palette.png" alt="palette icon">
+      <img src="images/color-palette.png" alt="palette icon">
       </a>
       <a class="navbar-burger" id="burger">
         <span></span>

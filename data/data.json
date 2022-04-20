@@ -1,0 +1,12 @@
+{
+    "users": [
+    {
+        "ID": 0,
+        "lineWidth": "1"
+    },
+    {
+        "ID": 1,
+        "lineWidth": "10"
+    }
+    ]
+}
