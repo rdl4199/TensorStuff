@@ -12,10 +12,14 @@
 
     <body>
         <app-navbar id="nav-app"></app-navbar>
-        <canvas width="640" height="480" id="draw-canvas"></canvas>
-        <canvas width="640" height="480" id="vid-canvas"></canvas>
+        <div class="columns">
+            <div class="column is-offset-one-quarter">
+                <canvas width="640" height="480" id="draw-canvas"></canvas>
+            </div>
+        </div>
         <p id="paused"></p>
         <p id="results"></p>
+        <p id="score">Score: 0</p>
 
         <app-toolbar></app-toolbar>
 
