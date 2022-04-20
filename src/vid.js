@@ -24,6 +24,7 @@ let height = 480;
 let handpos = [];
 let paused = false;
 let dragging = false;
+let amtOfLoads = 0;
 
 
 async function setup() {
@@ -80,6 +81,11 @@ function clearCanvas() {
 
 function modelLoaded() {
   console.log('poseNet ready');
+
+  //spinner until both canvas and handpose load.
+  amtOfLoads++;
+  if (amtOfLoads > 1)
+    document.querySelector(".loading").style.display = "none";
 }
 
 function classifyCanvas() {
@@ -99,13 +105,6 @@ function gotResult(error, results) {
 }
 function draw() {
   //ctxMain.drawImage(video, 0, 0, 640, 480);
-
-  // // vertical-flip
-  // ctxMain.scale(1, -1);
-  // ctxMain.translate(0, -canvas.height);
-  // ctxMain.drawImage(video, 0, 0);
-  // // reset the transform-matrix
-  // ctxMain.setTransform(1, 0, 0, 1, 0, 0);
 
   //Adds 1px black border.
   drawBorder();
