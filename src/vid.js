@@ -4,8 +4,10 @@ let pose;
 let skeleton;
 
 let canvas;
-//let vidCanvas;
-//let ctxVid;
+let drawWords = ['aircraft_carrier', 'airplane', 'alarm_clock', 'ambulance', 'angel', 'animal_migration', 'ant', 'anvil', 'apple', 'arm', 'asparagus', 'axe',
+  'backpack', 'banana', 'bandage', 'barn', 'baseball', 'baseball_bat', 'basket', 'basketball', 'bat', 'bathtub', 'beach', 'bear', 'beard', 'bed',
+  'bee', 'belt', 'bench', 'bicycle', 'binoculars', 'bird', 'birthday_cake', 'blackberry', 'blueberry', 'book', 'boomerang', 'bottlecap', 'bowtie', 'bracelet', 'brain', 'bread', 'bridge', 'broccoli', 'broom', 'bucket', 'bulldozer', 'bus', 'bush', 'butterfly', 'cactus', 'cake', 'calculator', 'calendar', 'camel', 'camera', 'camouflage', 'campfire', 'candle', 'cannon', 'canoe', 'car', 'carrot', 'castle', 'cat', 'ceiling_fan', 'cello', 'cell_phone', 'chair', 'chandelier', 'church', 'circle', 'clarinet', 'clock', 'cloud', 'coffee_cup', 'compass', 'computer', 'cookie', 'cooler', 'couch', 'cow', 'crab', 'crayon', 'crocodile', 'crown', 'cruise_ship', 'cup', 'diamond', 'dishwasher', 'diving_board', 'dog', 'dolphin', 'donut', 'door', 'dragon', 'dresser', 'drill', 'drums', 'duck', 'dumbbell', 'ear', 'elbow', 'elephant', 'envelope', 'eraser', 'eye', 'eyeglasses', 'face', 'fan', 'feather', 'fence', 'finger', 'fire_hydrant', 'fireplace', 'firetruck', 'fish', 'flamingo', 'flashlight', 'flip_flops', 'floor_lamp', 'flower', 'flying_saucer', 'foot', 'fork', 'frog', 'frying_pan', 'garden', 'garden_hose', 'giraffe', 'goatee', 'golf_club', 'grapes', 'grass',
+  'guitar', 'hamburger', 'hammer', 'hand', 'harp', 'hat', 'headphones', 'hedgehog', 'helicopter', 'helmet', 'hexagon', 'hockey_puck', 'hockey_stick', 'horse', 'hospital', 'hot_air_balloon', 'hot_dog', 'hot_tub', 'hourglass', 'house', 'house_plant', 'hurricane', 'ice_cream', 'jacket', 'jail', 'kangaroo', 'key', 'keyboard', 'knee', 'knife', 'ladder', 'lantern', 'laptop', 'leaf', 'leg', 'light_bulb', 'lighter', 'lighthouse', 'lightning', 'line', 'lion', 'lipstick', 'lobster', 'lollipop', 'mailbox', 'map', 'marker', 'matches', 'megaphone', 'mermaid', 'microphone', 'microwave', 'monkey', 'moon', 'mosquito', 'motorbike', 'mountain', 'mouse', 'moustache', 'mouth', 'mug', 'mushroom', 'nail', 'necklace', 'nose', 'ocean', 'octagon', 'octopus', 'onion', 'oven', 'owl', 'paintbrush', 'paint_can', 'palm_tree', 'panda', 'pants', 'paper_clip', 'parachute', 'parrot', 'passport', 'peanut', 'pear', 'peas', 'pencil', 'penguin', 'piano', 'pickup_truck', 'picture_frame', 'pig', 'pillow', 'pineapple', 'pizza', 'pliers', 'police_car', 'pond', 'pool', 'popsicle', 'postcard', 'potato', 'power_outlet', 'purse', 'rabbit', 'raccoon', 'radio', 'rain', 'rainbow', 'rake', 'remote_control', 'rhinoceros', 'rifle', 'river', 'roller_coaster', 'rollerskates', 'sailboat', 'sandwich', 'saw', 'saxophone', 'school_bus', 'scissors', 'scorpion', 'screwdriver', 'sea_turtle', 'see_saw', 'shark', 'sheep', 'shoe', 'shorts', 'shovel', 'sink', 'skateboard', 'skull', 'skyscraper', 'sleeping_bag', 'smiley_face', 'snail', 'snake', 'snorkel', 'snowflake', 'snowman', 'soccer_ball', 'sock', 'speedboat', 'spider', 'spoon', 'spreadsheet', 'square', 'squiggle', 'squirrel', 'stairs', 'star', 'steak', 'stereo', 'stethoscope', 'stitches', 'stop_sign', 'stove', 'strawberry', 'streetlight', 'string_bean', 'submarine', 'suitcase', 'sun', 'swan', 'sweater', 'swing_set', 'sword', 'syringe', 'table', 'teapot', 'teddy-bear', 'telephone', 'television', 'tennis_racquet', 'tent', 'The_Eiffel_Tower', 'The_Great_Wall_of_China', 'The_Mona_Lisa', 'tiger', 'toaster', 'toe', 'toilet', 'tooth', 'toothbrush', 'toothpaste', 'tornado', 'tractor', 'traffic_light', 'train', 'tree', 'triangle', 'trombone', 'truck', 'trumpet', 't-shirt', 'umbrella', 'underwear', 'van', 'vase', 'violin', 'washing_machine', 'watermelon', 'waterslide', 'whale', 'wheel', 'windmill', 'wine_bottle', 'wine_glass', 'wristwatch', 'yoga', 'zebra', 'zigzag'];
 let ctxDraw;
 let ctxUser;
 let strokeStyle;
@@ -26,8 +28,7 @@ let paused = false;
 let dragging = false;
 let amtOfLoads = 0;
 
-
-async function setup() {
+function setup() {
   canvas = document.querySelector("#draw-canvas");
   ctxDraw = canvas.getContext("2d");
   //vidCanvas = document.querySelector("#vid-canvas");
@@ -36,8 +37,8 @@ async function setup() {
   //ctxDraw.translate(0, -canvas.height);
 
   // reset the transform-matrix
-  lastX = 50;
-  lastY = 50;
+  lastX = 0;
+  lastY = 0;
   lastConfidence = 100;
   video = createCapture(VIDEO);
   //video.hide();
@@ -60,7 +61,7 @@ async function setup() {
   document.querySelector("#draw-canvas").onmouseout = doMouseout;
 
   lastView = document.querySelector("#results");
-  doodleClassifier = await ml5.imageClassifier('DoodleNet', modelLoaded);
+  doodleClassifier = ml5.imageClassifier('DoodleNet', modelLoaded);
 
   clearCanvas();
   //requestAnimationFrame(draw);
@@ -76,7 +77,7 @@ function gotPoses(poses) {
 
 function clearCanvas() {
   ctxDraw.fillStyle = "#ebedef";
-  ctxDraw.fillRect(0, 0, width, height);
+  ctxDraw.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function modelLoaded() {
@@ -84,8 +85,13 @@ function modelLoaded() {
 
   //spinner until both canvas and handpose load.
   amtOfLoads++;
-  if (amtOfLoads > 1)
-    document.querySelector(".loading").style.display = "none";
+  if (amtOfLoads > 1) {
+      document.querySelector(".loading").style.display = "none";
+  }
+
+  canvas.height = video.height;
+  canvas.width = video.width;
+  clearCanvas();
 }
 
 function classifyCanvas() {
@@ -127,74 +133,77 @@ function draw() {
 
   //console.log(handpos);
   if (handpos.length > 0) {
-
     let indexFingerTip = handpos[0].annotations.indexFinger[0];
     let thumbTip = handpos[0].annotations.thumb[0];
     let PinkyTip = handpos[0].annotations.pinky[0];
-    let ringTip = handpos[0].annotations.ringFinger[0];
+    let ringTip = handpos[0].annotations.ringFinger[2];
     let fingerX = indexFingerTip[0];
     let fingerY = indexFingerTip[1];
     ctxDraw.lineWidth = lineWidth;
     ctxDraw.strokeStyle = strokeStyle;
     ctxDraw.fillStyle = fillStyle;
     ctxDraw.lineCap = "round";
+    //console.log((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])));
+    if ((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])) > 130) {
+      if(paused)
+      {
+        paused = false;
+        lastX = (640 - fingerX);
+        lastY = fingerY;
+      }
+      document.querySelector("#paused").innerHTML = "";
+    }
+    if ((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])) < 80) {
+      
+      if (!move && !paused) {
+        move = true;
+        ctxDraw.lineTo((640 - fingerX), fingerY);
+        ctxDraw.stroke();
+        classifyCanvas();
+        paused = true;
+        document.querySelector("#paused").innerHTML = "Paused";
+      }
+      else if(!paused){
+        move = false;
+        ctxDraw.beginPath();
+        ctxDraw.moveTo((640 - fingerX), fingerY)
+        paused = true;
+        document.querySelector("#paused").innerHTML = "Paused";
+      }
+    }
     if (!paused) {
       if (move) {
         ctxDraw.beginPath();
-        ctxDraw.moveTo(lastX, lastY);
+        if(lastX == 0)
+        {
+          ctxDraw.moveTo((640 - fingerX), fingerY);
+        }
+        else
+        {
+          ctxDraw.moveTo(lastX, lastY);
+        }
         move = false;
       }
+      //figure it out
       else {
-        //lastConfidence = rightHand.confidence;
-        //if(lastConfidence > .8)
-        //{
         ctxDraw.lineTo((640 - fingerX), fingerY);
         ctxDraw.stroke();
         lastX = (640 - fingerX);
         lastY = fingerY;
         move = true;
         classifyCanvas();
-        //}
       }
     }
-    else {
-      if ((Math.abs(ringTip[0] - PinkyTip[0]) + Math.abs(ringTip[1] - PinkyTip[1])) < 20) {
-        paused = false;
-        document.querySelector("#paused").innerHTML = "";
-      }
-    }
+    // if ((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])) > 130) {
+    //   paused = false;
+    //   document.querySelector("#paused").innerHTML = "";
+    //   lastX = indexFingerTip[0];
+    //   lastY = indexFingerTip[1];
+    // }
+    console.log(move);
 
     //If the user touches their pinky and thumb together or atleast come close pause drawing
     //Not using pythagrorean theorem bc its not that important
-    console.log((Math.abs(thumbTip[0] - PinkyTip[0]) + Math.abs(thumbTip[1] - PinkyTip[1])));
-    if ((Math.abs(thumbTip[0] - PinkyTip[0]) + Math.abs(thumbTip[1] - PinkyTip[1])) < 20) {
-      paused = true;
-      document.querySelector("#paused").innerHTML = "Paused";
-    }
-    //https://www.section.io/engineering-education/machine-learning-image-classification-with-javascript-and-nyckel/
-    // console.log(rightHand);
-    // let eyeR = pose.rightEye;
-    // let eyeL = pose.leftEye;
-    // let d = dist(eyeR.x, eyeR.y, eyeL.x, eyeL.y);
-    // fill(255, 0, 0);
-    // ellipse(pose.nose.x, pose.nose.y, d);
-    // fill(0, 0, 255);
-    // ellipse(pose.leftWrist.x, pose.leftWrist.y, 32);
-
-    // for (let i = 0; i < pose.keypoints.length; i++) {
-    //   let x = pose.keypoints[i].position.x;
-    //   let y = pose.keypoints[i].position.y;
-    //   fill(0, 255, 0);
-    //   ellipse(x, y, 16, 16);
-    // }
-
-    // for (let i = 0; i < skeleton.length; i++) {
-    //   let a = skeleton[i][0];
-    //   let b = skeleton[i][1];
-    //   strokeWeight(2);
-    //   stroke(255);
-    //   line(a.position.x, a.position.y, b.position.x, b.position.y);
-    // }
   }
 }
 
@@ -221,8 +230,7 @@ const doToolChange = () => {
 
   let currentTool = document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value;
 
-  switch(currentTool)
-  {
+  switch (currentTool) {
     case "tool-pencil":
       //Ungreys out stroke color box
       document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
@@ -233,19 +241,19 @@ const doToolChange = () => {
       document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = true;
 
 
-        //Adds 1px black border.
-        drawBorder();
+      //Adds 1px black border.
+      drawBorder();
 
       break;
-      case "tool-fill":
-        //Ungreys out stroke color box
-        document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
+    case "tool-fill":
+      //Ungreys out stroke color box
+      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
 
-        ctxDraw.fillStyle = document.querySelector("app-toolbar").shadowRoot.querySelector("#strokestyle-chooser").value;
-        ctxDraw.fillRect(0,0,canvas.width,canvas.height);
+      ctxDraw.fillStyle = document.querySelector("app-toolbar").shadowRoot.querySelector("#strokestyle-chooser").value;
+      ctxDraw.fillRect(0, 0, canvas.width, canvas.height);
 
-        //reset back to pencil being selected.
-        document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value = "tool-pencil";
+      //reset back to pencil being selected.
+      document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value = "tool-pencil";
 
       break;
   }
@@ -312,10 +320,10 @@ const doMousemove = (evt) => {
   //pencil
   //if on eraser, color will be disabled, make it white and thick
   if (document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled) {
-    ctxDraw.globalCompositeOperation="destination-out";
+    ctxDraw.globalCompositeOperation = "destination-out";
   }
   else {
-    ctxDraw.globalCompositeOperation="source-over";
+    ctxDraw.globalCompositeOperation = "source-over";
   }
   ctxDraw.strokeStyle = strokeStyle;
   ctxDraw.lineWidth = lineWidth;

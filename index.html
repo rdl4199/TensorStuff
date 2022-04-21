@@ -13,11 +13,17 @@
 
     <body>
         <app-navbar id="nav-app"></app-navbar>
+        
         <div class="loading column is-vcentered">Loading&#8230;<img src="/images/spinner.gif" alt="" class="image is-16x16 is-inline"></div>
-        <canvas width="640" height="480" id="draw-canvas" class="py-1 px-1"></canvas>
-        <!--<canvas width="640" height="480" id="vid-canvas"></canvas>-->
+
+        <div class="columns">
+            <div class="column is-offset-one-quarter">
+                <canvas width="640" height="480" id="draw-canvas"></canvas>
+            </div>
+        </div>
         <p id="paused"></p>
         <p id="results"></p>
+        <p id="score">Score: 0</p>
 
         <app-toolbar></app-toolbar>
 
