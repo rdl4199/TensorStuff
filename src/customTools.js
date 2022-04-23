@@ -19,27 +19,11 @@ template_tools.innerHTML = `
             </label>
 
             <label class="tag is-link is-large is-vcentered py-5">Stroke Color:
-                <select class="button px-2 ml-3" id="strokestyle-chooser">
-                    <option value="black" selected>Black</option>
-                    <option value="red">Red</option>
-                    <option value="green">Green</option>
-                    <option value="blue">Blue</option>
-                </select>
+                <input class="button px-2 ml-3" id="strokestyle-chooser" type="color" value="#000000">
             </label>
     
             <label class="tag is-link is-large is-vcentered py-5">Line Width:
-                  <select class="button px-4 ml-3" id="linewidth-chooser">
-              <option value="1" selected>1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-                </select>
+                <input class="ml-3" type="range" id="linewidth-chooser" name="points" min="1" max="100" value="1">
             </label>
             
             <span><input class="button px-5 mx-2 is-pulled-right is-danger" id="btn-clear" type="button" value="Clear"/></span>

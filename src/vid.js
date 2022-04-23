@@ -233,12 +233,12 @@ const doToolChange = () => {
   switch (currentTool) {
     case "tool-pencil":
       //Ungreys out stroke color box
-      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
+      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("input").disabled = false;
 
       break;
     case "tool-eraser":
       //greys out stroke color box
-      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = true;
+      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("input").disabled = true;
 
 
       //Adds 1px black border.
@@ -247,10 +247,13 @@ const doToolChange = () => {
       break;
     case "tool-fill":
       //Ungreys out stroke color box
-      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
+      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("input").disabled = false;
 
+      ctxDraw.save();
       ctxDraw.fillStyle = document.querySelector("app-toolbar").shadowRoot.querySelector("#strokestyle-chooser").value;
+      ctxDraw.globalCompositeOperation = "source-over";
       ctxDraw.fillRect(0, 0, canvas.width, canvas.height);
+      ctxDraw.restore();
 
       //reset back to pencil being selected.
       document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value = "tool-pencil";
@@ -319,7 +322,7 @@ const doMousemove = (evt) => {
 
   //pencil
   //if on eraser, color will be disabled, make it white and thick
-  if (document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled) {
+  if (document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("input").disabled) {
     ctxDraw.globalCompositeOperation = "destination-out";
   }
   else {
