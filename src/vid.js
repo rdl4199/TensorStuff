@@ -337,6 +337,9 @@ const doMousemove = (evt) => {
 
   //stoke line
   ctxDraw.stroke();
+
+  //use doodlenet for regular drawing.
+  classifyCanvas();
 };
 
 const doMouseup = () => {
