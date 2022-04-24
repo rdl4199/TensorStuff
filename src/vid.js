@@ -21,23 +21,24 @@ let width = 640;
 let height = 480;
 let handpos = [];
 let paused = false;
+let afterPaused = false;
+let dragging = false;
 
 
 async function setup() {
   canvas = document.querySelector("#draw-canvas");
   ctxDraw = canvas.getContext("2d");
-  //vidCanvas = document.querySelector("#vid-canvas");
-  //ctxVid = vidCanvas.getContext("2d");
-  //ctxDraw.scale(1, -1);
-  //ctxDraw.translate(0, -canvas.height);
+  document.querySelector("#btn-clear").className = "button px-5 mx-2 is-pulled-right is-danger is-loading";
+  document.querySelector("#btn-export").className = "button px-5 mx-1 is-pulled-right is-primary is-loading"
 
+  canvas.className = "is-loading";
   // reset the transform-matrix
   lastX = 50;
   lastY = 50;
   lastConfidence = 100;
   video = createCapture(VIDEO);
   //video.hide();
-  poseNet = ml5.handpose(video, modelLoaded);
+  poseNet = ml5.handpose(video);
   poseNet.on('hand', results => {
     handpos = results;
   });
@@ -67,6 +68,10 @@ function clearCanvas() {
 
 function modelLoaded() {
   console.log('poseNet ready');
+  canvas.height = video.height;
+  canvas.width = video.width;
+  canvas.className = "";
+  clearCanvas();
 }
 
 function classifyCanvas() {
@@ -78,7 +83,7 @@ function gotResult(error, results) {
     console.error(error);
   }
   // The results are in an array ordered by confidence.
-  //console.log(handpos);
+  console.log(handpos);
   // Show the first label and confidence
   //label.textContent = `Label: ${results[0].label}`;
   //confidence.textContent = `Confidence: ${results[0].confidence.toFixed(4)}`;
@@ -99,16 +104,49 @@ function draw() {
     ctxDraw.strokeStyle = strokeStyle;
     ctxDraw.fillStyle = fillStyle;
     ctxDraw.lineCap = "round";
+    //console.log((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])));
+    if ((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])) > 130) {
+      if(paused)
+      {
+        paused = false;
+        lastX = (640 - fingerX);
+        lastY = fingerY;
+        afterPaused = true;
+      }
+      document.querySelector("#paused").innerHTML = "";
+    }
+    if ((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])) < 80) {
+      
+      if (!move && !paused) {
+        move = true;
+        ctxDraw.lineTo((640 - fingerX), fingerY);
+        ctxDraw.stroke();
+        classifyCanvas();
+        paused = true;
+        document.querySelector("#paused").innerHTML = "Paused";
+      }
+      else if(!paused){
+        move = false;
+        ctxDraw.beginPath();
+        ctxDraw.moveTo((640 - fingerX), fingerY)
+        paused = true;
+        document.querySelector("#paused").innerHTML = "Paused";
+      }
+    }
     if (!paused) {
       if (move) {
         ctxDraw.beginPath();
         ctxDraw.moveTo(lastX, lastY);
         move = false;
       }
+      //figure it out
+      //Since ctx uses the last point and then goes to current point when false can lead to long line strokes
+      //Unwanted
       else {
-        //lastConfidence = rightHand.confidence;
-        //if(lastConfidence > .8)
-        //{
+        if(afterPaused)
+        {
+          ctxDraw.strokeStyle = "rgba(0,0,0,0)";
+        }
         ctxDraw.lineTo((640 - fingerX), fingerY);
         ctxDraw.stroke();
         lastX = (640 - fingerX);
@@ -124,30 +162,136 @@ function draw() {
         document.querySelector("#paused").innerHTML = "";
       }
     }
+    afterPaused = false;
+    ctxDraw.strokeStyle = strokeStyle;
+    // if ((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])) > 130) {
+    //   paused = false;
+    //   document.querySelector("#paused").innerHTML = "";
+    //   lastX = indexFingerTip[0];
+    //   lastY = indexFingerTip[1];
+    // }
+    //console.log(move);
 
     //If the user touches their pinky and thumb together or atleast come close pause drawing
     //Not using pythagrorean theorem bc its not that important
-    console.log((Math.abs(thumbTip[0] - PinkyTip[0]) + Math.abs(thumbTip[1] - PinkyTip[1])));
-    if ((Math.abs(thumbTip[0] - PinkyTip[0]) + Math.abs(thumbTip[1] - PinkyTip[1])) < 20) {
-      paused = true;
-      document.querySelector("#paused").innerHTML = "Paused";
-    }
-    //https://www.section.io/engineering-education/machine-learning-image-classification-with-javascript-and-nyckel/
-    // console.log(rightHand);
-    // let eyeR = pose.rightEye;
-    // let eyeL = pose.leftEye;
-    // let d = dist(eyeR.x, eyeR.y, eyeL.x, eyeL.y);
-    // fill(255, 0, 0);
-    // ellipse(pose.nose.x, pose.nose.y, d);
-    // fill(0, 0, 255);
-    // ellipse(pose.leftWrist.x, pose.leftWrist.y, 32);
+  }
+  else
+  {
+    paused = true;
+  }
+}
 
-    // for (let i = 0; i < pose.keypoints.length; i++) {
-    //   let x = pose.keypoints[i].position.x;
-    //   let y = pose.keypoints[i].position.y;
-    //   fill(0, 255, 0);
-    //   ellipse(x, y, 16, 16);
-    // }
+const drawBorder = () => {
+    //Adds 1px black border.
+    ctxDraw.save();
+    ctxDraw.lineWidth = 1.0;
+    ctxDraw.globalCompositeOperation="source-over";
+    ctxDraw.strokeStyle = "black";
+    ctxDraw.strokeRect(0,0,canvas.width, canvas.height);
+    ctxDraw.restore();
+};
+
+/*Functions for UI*/
+const doLineWidthChange = (evt) => {
+  lineWidth = evt.target.value;
+};
+
+const doLineColorChange = (evt) => {
+  strokeStyle = evt.target.value;
+};
+
+const doToolChange = () => {
+
+  let currentTool = document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value;
+
+  switch (currentTool) {
+    case "tool-pencil":
+      //Ungreys out stroke color box
+      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
+
+      break;
+    case "tool-eraser":
+      //greys out stroke color box
+      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = true;
+
+      //Adds 1px black border.
+      drawBorder();
+
+      break;
+    case "tool-fill":
+      //Ungreys out stroke color box
+      document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
+
+      ctxDraw.fillStyle = document.querySelector("app-toolbar").shadowRoot.querySelector("#strokestyle-chooser").value;
+      ctxDraw.fillRect(0, 0, canvas.width, canvas.height);
+
+      //reset back to pencil being selected.
+      document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value = "tool-pencil";
+
+      break;
+  }
+};
+
+//Clears ctxDraw
+const doClear = () => {
+
+  //https://www.w3schools.com/js/js_popup.asp
+
+  if (window.confirm("Clear the image?")) {
+    ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
+    ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
+    //ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
+  
+    drawBorder();
+  }
+};
+
+const doExport = () => {
+
+  //https://www.w3schools.com/js/js_popup.asp
+
+  if (window.confirm("Export the image?")) {
+    // convert the canvas to a JPEG and download it
+    // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
+    const data = canvas.toDataURL("image/jpeg", 1.0);
+    const link = document.createElement("a");
+    link.download = "exported-image.jpg";
+    link.href = data;
+    link.click();
+    link.remove();
+  }
+};
+/*End Functions for UI*/
+
+
+//Functions for using the mouse to draw.
+const getMouse = (evt) => {
+	const mouse = {};
+	mouse.x = evt.pageX - evt.target.offsetLeft;
+	mouse.y = evt.pageY - evt.target.offsetTop;
+
+	return mouse;
+};
+
+const doMousedown = (evt) => {
+  dragging = true;
+
+  //get mouse location in canvas coords
+  const mouse = getMouse(evt);
+
+  //pencil
+  ctxDraw.beginPath();
+
+  //move to x,y of mouse
+  ctxDraw.lineTo(mouse.x, mouse.y);
+};
+
+const doMousemove = (evt) => {
+  //if mouse not down, bail
+  if (!dragging) return;
+
+  //get mouse location
+  const mouse = getMouse(evt);
 
     // for (let i = 0; i < skeleton.length; i++) {
     //   let a = skeleton[i][0];
