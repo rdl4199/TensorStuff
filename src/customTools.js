@@ -23,7 +23,7 @@ template_tools.innerHTML = `
             </label>
     
             <label class="tag is-link is-large is-vcentered py-5">Line Width:
-                <input class="ml-3" type="range" id="linewidth-chooser" name="points" min="1" max="100" value="1">
+                <input class="ml-3" type="range" id="linewidth-chooser" name="points" min="1" max="100" value="35">
             </label>
             
             <span><input class="button px-5 mx-2 is-pulled-right is-danger" id="btn-clear" type="button" value="Clear"/></span>
