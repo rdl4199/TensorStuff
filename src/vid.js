@@ -281,6 +281,8 @@ const doExport = () => {
 
   if (fileName == null)
     return;
+  if (fileName == "")
+    fileName = "canvas-drawing";
 
   // convert the canvas to a JPEG and download it
   // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
@@ -299,6 +301,8 @@ const doSave = () => {
 
   if (fileName == null)
     return;
+  if (fileName == "")
+    fileName = "canvas-image";
   
   // retrieve the canvas data
   let canvasContents = canvas.toDataURL(); // a data URL of the current canvas image
