@@ -277,17 +277,19 @@ const doClear = () => {
 const doExport = () => {
 
   //https://www.w3schools.com/js/js_popup.asp
+  let fileName = prompt("Exported File Name:");
 
-  if (window.confirm("Export the image?")) {
-    // convert the canvas to a JPEG and download it
-    // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
-    const data = canvas.toDataURL("image/jpeg", 1.0);
-    const link = document.createElement("a");
-    link.download = "exported-image.jpg";
-    link.href = data;
-    link.click();
-    link.remove();
-  }
+  if (fileName == null)
+    return;
+
+  // convert the canvas to a JPEG and download it
+  // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
+  const data = canvas.toDataURL("image/jpeg", 1.0);
+  const link = document.createElement("a");
+  link.download = fileName + ".jpg";
+  link.href = data;
+  link.click();
+  link.remove();
 };
 
 //https://stackoverflow.com/questions/44806870/saving-canvas-to-json-and-loading-json-to-canvas
@@ -321,7 +323,11 @@ const doSave = () => {
 const doLoad = () => {
   if (document.querySelector('app-toolbar').shadowRoot.querySelector("#btn-load").files[0]) {
     // read the contents of the first file in the <input type="file">
-    reader.readAsText(document.querySelector('app-toolbar').shadowRoot.querySelector("#btn-load").files[0]);
+    //https://stackoverflow.com/questions/16002412/check-file-extension-and-alert-user-if-isnt-image-file
+    if (!document.querySelector('app-toolbar').shadowRoot.querySelector("#btn-load").files[0].name.match(/.(json)$/i))
+      alert('File given does not have the \'.json\. extension.');
+    else
+      reader.readAsText(document.querySelector('app-toolbar').shadowRoot.querySelector("#btn-load").files[0]);
   }
 };
 
