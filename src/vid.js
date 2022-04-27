@@ -27,6 +27,7 @@ let handpos = [];
 let paused = false;
 let dragging = false;
 let amtOfLoads = 0;
+let reader = new FileReader();
 
 function setup() {
   canvas = document.querySelector("#draw-canvas");
@@ -287,6 +288,52 @@ const doExport = () => {
     link.click();
     link.remove();
   }
+};
+
+//https://stackoverflow.com/questions/44806870/saving-canvas-to-json-and-loading-json-to-canvas
+const doSave = () => {
+  
+  let fileName = prompt("File Name:");
+
+  if (fileName == null)
+    return;
+  
+  // retrieve the canvas data
+  let canvasContents = canvas.toDataURL(); // a data URL of the current canvas image
+  let data = { image: canvasContents, date: Date.now() };
+  let string = JSON.stringify(data);
+
+  // create a blob object representing the data as a JSON string
+  let file = new Blob([string], {
+    type: 'application/json'
+  });
+  
+  // trigger a click event on an <a> tag to open the file explorer
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(file);
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
+
+//https://stackoverflow.com/questions/44806870/saving-canvas-to-json-and-loading-json-to-canvas
+const doLoad = () => {
+  if (document.querySelector('app-toolbar').shadowRoot.querySelector("#btn-load").files[0]) {
+    // read the contents of the first file in the <input type="file">
+    reader.readAsText(document.querySelector('app-toolbar').shadowRoot.querySelector("#btn-load").files[0]);
+  }
+};
+
+// this function executes when the contents of the file have been fetched
+reader.onload = function () {
+  let data = JSON.parse(reader.result);
+  let image = new Image();
+  image.onload = function () {
+    ctxDraw.clearRect(0, 0, canvas.width, canvas.height);
+    ctxDraw.drawImage(image, 0, 0); // draw the new image to the screen
+  }
+  image.src = data.image; // data.image contains the data URL
 };
 /*End Functions for UI*/
 
