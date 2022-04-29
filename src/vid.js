@@ -42,7 +42,8 @@ function setup() {
   lastY = 0;
   lastConfidence = 100;
   video = createCapture(VIDEO);
-  //video.hide();
+  //document.querySelector("#canvas-video") = createCapture(VIDEO);
+  video.hide();
   poseNet = ml5.handpose(video, modelLoaded);
   poseNet.on('hand', results => {
     handpos = results;
