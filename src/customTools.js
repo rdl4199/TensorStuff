@@ -26,6 +26,8 @@ template_tools.innerHTML = `
                 <input class="ml-3" type="range" id="linewidth-chooser" name="points" min="1" max="100" value="20">
             </label>
             
+            <span><input class="button px-5 mx-1 is-pulled-right is-warning" id="btn-save" type="button" value="Save"/></span>
+            <span><input class="button px-5 mx-1 is-pulled-right is-warning" id="btn-load" type="file" value="Load"/></span>
             <span><input class="button px-5 mx-2 is-pulled-right is-danger" id="btn-clear" type="button" value="Clear"/></span>
             <span><input class="button px-5 mx-1 is-pulled-right is-primary" id="btn-export" type="button" value="Export"/></span>
         </div>
@@ -49,6 +51,8 @@ class appToolbar extends HTMLElement{
       this.shadowRoot.querySelector("#strokestyle-chooser").onchange = doLineColorChange;
       this.shadowRoot.querySelector("#btn-clear").onclick = doClear;
       this.shadowRoot.querySelector("#btn-export").onclick = doExport;
+      this.shadowRoot.querySelector("#btn-save").onclick = doSave;
+      this.shadowRoot.querySelector("#btn-load").onchange = doLoad;
     }
 
     render(){

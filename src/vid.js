@@ -61,6 +61,7 @@ let paused = false;
 let dragging = false;
 let amtOfLoads = 0;
 Math.random(0,1);
+let reader = new FileReader();
 
 //Basic setup stuff 
 function setup() {
@@ -75,7 +76,8 @@ function setup() {
   lastY = 0;
   lastConfidence = 100;
   video = createCapture(VIDEO);
-  //video.hide();
+  //document.querySelector("#canvas-video") = createCapture(VIDEO);
+  video.hide();
   poseNet = ml5.handpose(video, modelLoaded);
   poseNet.on('hand', results => {
     handpos = results;
@@ -468,17 +470,73 @@ const doClear = () => {
 const doExport = () => {
 
   //https://www.w3schools.com/js/js_popup.asp
+  let fileName = prompt("Exported File Name:");
 
-  if (window.confirm("Export the image?")) {
-    // convert the canvas to a JPEG and download it
-    // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
-    const data = canvas.toDataURL("image/jpeg", 1.0);
-    const link = document.createElement("a");
-    link.download = "exported-image.jpg";
-    link.href = data;
-    link.click();
-    link.remove();
+  if (fileName == null)
+    return;
+  if (fileName == "")
+    fileName = "canvas-drawing";
+
+  // convert the canvas to a JPEG and download it
+  // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
+  const data = canvas.toDataURL("image/jpeg", 1.0);
+  const link = document.createElement("a");
+  link.download = fileName + ".jpg";
+  link.href = data;
+  link.click();
+  link.remove();
+};
+
+//https://stackoverflow.com/questions/44806870/saving-canvas-to-json-and-loading-json-to-canvas
+const doSave = () => {
+  
+  let fileName = prompt("File Name:");
+
+  if (fileName == null)
+    return;
+  if (fileName == "")
+    fileName = "canvas-image";
+  
+  // retrieve the canvas data
+  let canvasContents = canvas.toDataURL(); // a data URL of the current canvas image
+  let data = { image: canvasContents, date: Date.now() };
+  let string = JSON.stringify(data);
+
+  // create a blob object representing the data as a JSON string
+  let file = new Blob([string], {
+    type: 'application/json'
+  });
+  
+  // trigger a click event on an <a> tag to open the file explorer
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(file);
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
+
+//https://stackoverflow.com/questions/44806870/saving-canvas-to-json-and-loading-json-to-canvas
+const doLoad = () => {
+  if (document.querySelector('app-toolbar').shadowRoot.querySelector("#btn-load").files[0]) {
+    // read the contents of the first file in the <input type="file">
+    //https://stackoverflow.com/questions/16002412/check-file-extension-and-alert-user-if-isnt-image-file
+    if (!document.querySelector('app-toolbar').shadowRoot.querySelector("#btn-load").files[0].name.match(/.(json)$/i))
+      alert('File given does not have the \'.json\. extension.');
+    else
+      reader.readAsText(document.querySelector('app-toolbar').shadowRoot.querySelector("#btn-load").files[0]);
   }
+};
+
+// this function executes when the contents of the file have been fetched
+reader.onload = function () {
+  let data = JSON.parse(reader.result);
+  let image = new Image();
+  image.onload = function () {
+    ctxDraw.clearRect(0, 0, canvas.width, canvas.height);
+    ctxDraw.drawImage(image, 0, 0); // draw the new image to the screen
+  }
+  image.src = data.image; // data.image contains the data URL
 };
 /*End Functions for UI*/
 
@@ -529,6 +587,9 @@ const doMousemove = (evt) => {
 
   //stoke line
   ctxDraw.stroke();
+
+  //use doodlenet for regular drawing.
+  classifyCanvas();
 };
 
 const doMouseup = () => {

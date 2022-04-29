@@ -18,12 +18,13 @@
 
         <div class="columns">
             <div class="column is-offset-one-quarter">
-                <canvas width="640" height="480" id="draw-canvas"></canvas>
+                <canvas id="view-canvas"></canvas>
+                <canvas style="display: none;" width="640" height="480" id="draw-canvas"></canvas>
             </div>
         </div>
-        <p id="paused"></p>
-        <p id="results"></p>
         <p id="CurrentGuess"></p>
+        <p class="column is-vcentered" id="paused"></p>
+        <p class="column is-vcentered" id="results"></p>
         <p class="column is-vcentered" id="score">Score: 0</p>
 
         <app-toolbar></app-toolbar>
