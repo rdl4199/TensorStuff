@@ -137,7 +137,7 @@ function draw() {
   if (handpos.length > 0) {
     let indexFingerTip = handpos[0].annotations.indexFinger[0];
     let thumbTip = handpos[0].annotations.thumb[0];
-    let PinkyTip = handpos[0].annotations.pinky[0];
+    //let PinkyTip = handpos[0].annotations.pinky[0];
     let ringTip = handpos[0].annotations.ringFinger[2];
     let fingerX = indexFingerTip[0];
     let fingerY = indexFingerTip[1];
@@ -168,7 +168,7 @@ function draw() {
       else if(!paused){
         move = false;
         ctxDraw.beginPath();
-        ctxDraw.moveTo((640 - fingerX), fingerY)
+        ctxDraw.moveTo((640 - fingerX), fingerY);
         paused = true;
         document.querySelector("#paused").innerHTML = "Paused";
       }
@@ -343,7 +343,7 @@ reader.onload = function () {
   image.onload = function () {
     ctxDraw.clearRect(0, 0, canvas.width, canvas.height);
     ctxDraw.drawImage(image, 0, 0); // draw the new image to the screen
-  }
+  };
   image.src = data.image; // data.image contains the data URL
 };
 /*End Functions for UI*/
