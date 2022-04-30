@@ -44,8 +44,25 @@ body{
 #paused{
     color: red;
 }
-
-
+#view-canvas{
+    opacity: .8;
+    position: absolute;
+    left: 5px;
+    top:5px;
+}
+video{
+    position:absolute;
+    left: 5px;
+    top: 5px;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    z-index: -1;
+}
+#canvas-holder{
+    position: relative;
+    width: 640px;
+    height: 480px;
+}
 
 li {
     list-style-type:circle;
