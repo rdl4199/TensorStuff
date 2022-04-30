@@ -10,33 +10,36 @@ let canvas;
 //Words that doodlenet can guess. Probably take some weird ones out
 let drawWords = ['airplane', 'alarm_clock', 'ambulance', 'angel', 'animal_migration', 'ant', 'anvil', 'apple', 'axe',
   'backpack', 'banana', 'barn', 'baseball', 'baseball_bat', 'basket', 'basketball', 'bat', 'bathtub', 'beach', 'bear', 'beard', 'bed',
-  'bee', 'belt', 'bench', 'bicycle', 'binoculars', 'bird', 'birthday_cake', 'blackberry', 'blueberry', 'book', 'boomerang', 'bottlecap', 'bowtie', 'bracelet', 
+  'bee', 'belt', 'bench', 'bicycle', 'binoculars', 'bird', 'birthday_cake', 'blackberry', 'blueberry', 'book', 'boomerang', 'bottlecap', 'bowtie', 'bracelet',
   'brain', 'bread', 'bridge', 'broccoli', 'broom', 'bucket', 'bulldozer', 'bus', 'bush', 'butterfly', 'cactus', 'cake', 'calculator', 'calendar', 'camel', 'camera',
-  'camouflage', 'campfire', 'candle', 'cannon', 'canoe', 'car', 'carrot', 'castle', 'cat', 'ceiling_fan', 'cello', 'cell_phone', 'chair', 'chandelier', 
+  'camouflage', 'campfire', 'candle', 'cannon', 'canoe', 'car', 'carrot', 'castle', 'cat', 'ceiling_fan', 'cello', 'cell_phone', 'chair', 'chandelier',
   'church', 'circle', 'clarinet', 'clock', 'cloud', 'coffee_cup', 'compass', 'computer', 'cookie', 'cooler', 'couch', 'cow', 'crab', 'crayon', 'crocodile',
-  'crown', 'cruise_ship', 'cup', 'diamond', 'dishwasher', 'diving_board', 'dog', 'dolphin', 'donut', 'door', 'dragon', 'dresser', 'drill', 'drums', 
-  'duck', 'dumbbell', 'ear', 'elbow', 'elephant', 'envelope', 'eraser', 'eye', 'eyeglasses', 'face', 'fan', 'feather', 'fence', 'finger', 'fire_hydrant', 
-  'fireplace', 'firetruck', 'fish', 'flashlight', 'flip_flops', 'flower', 'flying_saucer', 'foot', 'fork', 'frog', 'frying_pan', 
+  'crown', 'cruise_ship', 'cup', 'diamond', 'dishwasher', 'diving_board', 'dog', 'dolphin', 'donut', 'door', 'dragon', 'dresser', 'drill', 'drums',
+  'duck', 'dumbbell', 'ear', 'elbow', 'elephant', 'envelope', 'eraser', 'eye', 'eyeglasses', 'face', 'fan', 'feather', 'fence', 'finger', 'fire_hydrant',
+  'fireplace', 'firetruck', 'fish', 'flashlight', 'flip_flops', 'flower', 'flying_saucer', 'foot', 'fork', 'frog', 'frying_pan',
   'garden', 'garden_hose', 'giraffe', 'goatee', 'golf_club', 'grapes', 'grass',
   'guitar', 'hamburger', 'hammer', 'hand', 'harp', 'hat', 'headphones', 'hedgehog', 'helicopter', 'helmet', 'hexagon', 'hockey_puck', 'hockey_stick', 'horse',
-  'hospital', 'hot_air_balloon', 'hot_dog', 'hot_tub', 'hourglass', 'house', 'hurricane', 'ice_cream', 'jacket', 'jail', 'kangaroo', 'key', 
-  'keyboard', 'knee', 'knife', 'ladder', 'lantern', 'laptop', 'leaf', 'leg', 'light_bulb', 'lighter', 'lighthouse', 'lightning', 'line', 'lion', 
-  'lipstick', 'lobster', 'lollipop', 'mailbox', 'map', 'marker', 'matches', 'megaphone', 'mermaid', 'microphone', 'microwave', 'monkey', 'moon', 'mosquito', 
+  'hospital', 'hot_air_balloon', 'hot_dog', 'hot_tub', 'hourglass', 'house', 'hurricane', 'ice_cream', 'jacket', 'jail', 'kangaroo', 'key',
+  'keyboard', 'knee', 'knife', 'ladder', 'lantern', 'laptop', 'leaf', 'leg', 'light_bulb', 'lighter', 'lighthouse', 'lightning', 'line', 'lion',
+  'lipstick', 'lobster', 'lollipop', 'mailbox', 'map', 'marker', 'matches', 'megaphone', 'mermaid', 'microphone', 'microwave', 'monkey', 'moon', 'mosquito',
   'motorbike', 'mountain', 'mouse', 'moustache', 'mouth', 'mug', 'mushroom', 'nail', 'necklace', 'nose', 'ocean', 'octagon', 'octopus', 'onion', 'oven', 'owl',
-  'paintbrush', 'paint_can', 'palm_tree', 'panda', 'pants', 'paper_clip', 'parrot', 'passport', 'peanut', 'pear', 'peas', 'pencil', 'penguin', 'piano', 'pickup_truck', 
+  'paintbrush', 'paint_can', 'palm_tree', 'panda', 'pants', 'paper_clip', 'parrot', 'passport', 'peanut', 'pear', 'peas', 'pencil', 'penguin', 'piano', 'pickup_truck',
   'picture_frame', 'pig', 'pillow', 'pineapple', 'pizza', 'pliers', 'police_car', 'pond', 'pool', 'popsicle', 'postcard', 'potato', 'power_outlet', 'purse',
-  'rabbit', 'raccoon', 'radio', 'rain', 'rainbow', 'rake', 'rhinoceros', 'rifle', 'river', 'roller_coaster', 'rollerskates', 'sailboat', 
+  'rabbit', 'raccoon', 'radio', 'rain', 'rainbow', 'rake', 'rhinoceros', 'rifle', 'river', 'roller_coaster', 'rollerskates', 'sailboat',
   'sandwich', 'saw', 'saxophone', 'school_bus', 'scissors', 'scorpion', 'screwdriver', 'sea_turtle', 'see_saw', 'shark', 'sheep', 'shoe', 'shorts', 'shovel',
   'sink', 'skateboard', 'skull', 'skyscraper', 'sleeping_bag', 'smiley_face', 'snail', 'snake', 'snorkel', 'snowflake', 'snowman', 'soccer_ball', 'sock',
-  'speedboat', 'spider', 'spoon', 'spreadsheet', 'square', 'squiggle', 'squirrel', 'stairs', 'star', 'steak', 'stereo', 'stitches', 
-  'stop_sign', 'stove', 'strawberry', 'streetlight', 'string_bean', 'submarine', 'suitcase', 'sun', 'swan', 'sweater', 'swing_set', 'sword', 
-  'syringe', 'table', 'teapot', 'teddy-bear', 'telephone', 'television', 'tent', 'The_Eiffel_Tower', 
-  'tiger', 'toaster', 'toe', 'toilet', 'tooth', 'toothbrush', 'toothpaste', 'tornado', 'tractor', 'traffic_light', 'train', 'tree', 
-  'triangle', 'trombone', 'truck', 'trumpet', 't-shirt', 'umbrella', 'underwear', 'van', 'vase', 'violin', 'washing_machine', 'watermelon', 
+  'speedboat', 'spider', 'spoon', 'spreadsheet', 'square', 'squiggle', 'squirrel', 'stairs', 'star', 'steak', 'stereo', 'stitches',
+  'stop_sign', 'stove', 'strawberry', 'streetlight', 'string_bean', 'submarine', 'suitcase', 'sun', 'swan', 'sweater', 'swing_set', 'sword',
+  'syringe', 'table', 'teapot', 'teddy-bear', 'telephone', 'television', 'tent', 'The_Eiffel_Tower',
+  'tiger', 'toaster', 'toe', 'toilet', 'tooth', 'toothbrush', 'toothpaste', 'tornado', 'tractor', 'traffic_light', 'train', 'tree',
+  'triangle', 'trombone', 'truck', 'trumpet', 't-shirt', 'umbrella', 'underwear', 'van', 'vase', 'violin', 'washing_machine', 'watermelon',
   'waterslide', 'whale', 'wheel', 'windmill', 'wine_bottle', 'wine_glass', 'wristwatch', 'yoga', 'zebra', 'zigzag'];
 let guessWord;
 let ctxDraw;
 let ctxUser;
+let ctxView;
+let videoElement;
+let canvasView;
 let score = 0;
 
 //Canvas settings
@@ -60,13 +63,15 @@ let height = 480;
 let paused = false;
 let dragging = false;
 let amtOfLoads = 0;
-Math.random(0,1);
+Math.random(0, 1);
 let reader = new FileReader();
 
 //Basic setup stuff 
 function setup() {
   canvas = document.querySelector("#draw-canvas");
   ctxDraw = canvas.getContext("2d");
+  canvasView = document.querySelector("#view-canvas");
+  ctxView = canvasView.getContext("2d");
   //document.querySelector("#btn-clear").className = "button px-5 mx-2 is-pulled-right is-danger is-loading";
   //document.querySelector("#btn-export").className = "button px-5 mx-1 is-pulled-right is-primary is-loading"
 
@@ -87,10 +92,36 @@ function setup() {
   strokeStyle = "black";
   fillStyle = "black";
   lineCap = "round";
-  
+  //canvasElement = document.querySelector('canvas'); 
+  //ctx = canvas.getContext('2d');
+  videoElement = document.querySelector('video');
+  width = videoElement.clientWidth;
+  height = videoElement.clientHeight;
+  canvas.width = video.width;
+  canvas.height = videoElement.clientHeight;
+  if (navigator.webkitGetUserMedia != null) {
+    let options = {
+      video: true,
+      audio: false
+    };
+
+    //request webcam access 
+    navigator.webkitGetUserMedia(options,
+      function (stream) {
+        //turn the stream into a magic URL 
+        //videoElement.src = window.webkitURL.createObjectURL(stream); 
+        videoElement.srcObject = stream;
+      },
+      function (e) {
+        console.log("error happened");
+        alert("You have navigator.webkitGetUserMedia, but an error occurred");
+
+      }
+    );
+  };
   //set initial border
   drawBorder();
-  
+
   document.querySelector("#draw-canvas").onmousedown = doMousedown;
   document.querySelector("#draw-canvas").onmousemove = doMousemove;
   document.querySelector("#draw-canvas").onmouseup = doMouseup;
@@ -98,8 +129,8 @@ function setup() {
 
   lastView = document.querySelector("#results");
   doodleClassifier = ml5.imageClassifier('DoodleNet', modelLoaded);
-  canvas.height = video.height;
-  canvas.width = video.width;
+  canvas.height = videoElement.clientHeight;
+  canvas.width = videoElement.clientWidth;
   guessWord = drawWords[Math.floor(Math.random() * drawWords.length)];
   document.querySelector("#CurrentGuess").innerHTML = `${guessWord}`
   clearCanvas();
@@ -107,8 +138,7 @@ function setup() {
 }
 
 //After the user manages to draw the certain thing given to them give them another and clear the canvas
-function newGuess()
-{
+function newGuess() {
   guessWord = drawWords[Math.floor(Math.random() * drawWords.length)];
   clearCanvas();
   score++;
@@ -118,7 +148,7 @@ function newGuess()
 
 //Callback for posenet
 //function gotPoses(poses) {
-  //console.log(poses);
+//console.log(poses);
 //  if (poses.length > 0) {
 //    pose = poses[0].pose;
 //    skeleton = poses[0].skeleton;
@@ -137,9 +167,10 @@ function modelLoaded() {
   //spinner until both canvas and handpose load.
   amtOfLoads++;
   if (amtOfLoads > 1) {
-      document.querySelector(".loading").style.display = "none";
+    document.querySelector(".loading").style.display = "none";
   }
 
+  //canvasView = createCanvas(videoElement.clientWidth, videoElement.clientHeight);
   canvas.height = video.height;
   canvas.width = video.width;
   //canvas.className = "";
@@ -165,20 +196,16 @@ function gotResult(error, results) {
   //label.textContent = `Label: ${results[0].label}`;
   //confidence.textContent = `Confidence: ${results[0].confidence.toFixed(4)}`;
   lastView.innerHTML = `Results ${results[0].label} with Confidence: ${results[0].confidence.toFixed(4)}`;
-  if(guessWord == results[0].label)
-  {
+  if (guessWord == results[0].label) {
     newGuess();
   }
-  else if(guessWord == results[1].label)
-  {
+  else if (guessWord == results[1].label) {
     newGuess();
   }
-  else if(guessWord == results[2].label)
-  {
+  else if (guessWord == results[2].label) {
     newGuess();
   }
-  else if(guessWord == results[3].label)
-  {
+  else if (guessWord == results[3].label) {
     newGuess();
   }
 }
@@ -187,7 +214,7 @@ function draw() {
 
   //Adds 1px black border.
   //drawBorder();
-    
+
 
   // //circle border on width of drawing/erasing tool, dissapears when user begins to draw. (incomplete)
   // ctxDraw.save();
@@ -214,7 +241,8 @@ function draw() {
     let fingerY = indexFingerTip[1];
 
     //Set the draw settings
-    lineWidth = document.querySelector("#linewidth-chooser").value;
+    lineWidth = document.querySelector("app-toolbar").shadowRoot.querySelector("#linewidth-chooser").value;
+    ctxDraw.lineWidth = lineWidth;
     ctxDraw.strokeStyle = strokeStyle;
     ctxDraw.fillStyle = fillStyle;
     ctxDraw.lineCap = "round";
@@ -222,8 +250,7 @@ function draw() {
 
     //If the user is not pausing
     if ((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])) > 130) {
-      if(paused)
-      {
+      if (paused) {
         paused = false;
         lastX = (640 - fingerX);
         lastY = fingerY;
@@ -241,7 +268,7 @@ function draw() {
         paused = true;
         document.querySelector("#paused").innerHTML = "Paused";
       }
-      else if(!paused){
+      else if (!paused) {
         move = false;
         ctxDraw.beginPath();
         ctxDraw.moveTo((640 - fingerX), fingerY)
@@ -252,12 +279,10 @@ function draw() {
     if (!paused) {
       if (move) {
         ctxDraw.beginPath();
-        if(lastX == 0)
-        {
+        if (lastX == 0) {
           ctxDraw.moveTo((640 - fingerX), fingerY);
         }
-        else
-        {
+        else {
           ctxDraw.moveTo(lastX, lastY);
         }
         move = false;
@@ -266,8 +291,7 @@ function draw() {
       //Since ctx uses the last point and then goes to current point when false can lead to long line strokes
       //Unwanted
       else {
-        if(afterPaused)
-        {
+        if (afterPaused) {
           ctxDraw.strokeStyle = "rgba(0,0,0,0)";
         }
         ctxDraw.lineTo((640 - fingerX), fingerY);
@@ -283,20 +307,24 @@ function draw() {
     //If the user touches their pinky and thumb together or atleast come close pause drawing
     //Not using pythagrorean theorem bc its not that important
   }
-  else
-  {
+  else {
     paused = true;
   }
+  //ctxView.drawImage(video,0,0);
+  //ctxView.globalAlpha = 0.5;
+  ctxView.drawImage(canvas,0,0, video.width, video.height);
+  //image(canvas, 0, 0, canvas.width, canvas.height);
+  //ctxView.globalAlpha = 1;
 }
 
 const drawBorder = () => {
-    //Adds 1px black border.
-    ctxDraw.save();
-    ctxDraw.lineWidth = 1.0;
-    ctxDraw.globalCompositeOperation="source-over";
-    ctxDraw.strokeStyle = "black";
-    ctxDraw.strokeRect(0,0,canvas.width, canvas.height);
-    ctxDraw.restore();
+  //Adds 1px black border.
+  ctxDraw.save();
+  ctxDraw.lineWidth = 1.0;
+  ctxDraw.globalCompositeOperation = "source-over";
+  ctxDraw.strokeStyle = "black";
+  ctxDraw.strokeRect(0, 0, canvas.width, canvas.height);
+  ctxDraw.restore();
 };
 
 // /*Functions for UI*/
@@ -349,7 +377,7 @@ const drawBorder = () => {
 //     ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
 //     ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
 //     //ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
-  
+
 //     drawBorder();
 //   }
 // };
@@ -489,14 +517,14 @@ const doExport = () => {
 
 //https://stackoverflow.com/questions/44806870/saving-canvas-to-json-and-loading-json-to-canvas
 const doSave = () => {
-  
+
   let fileName = prompt("File Name:");
 
   if (fileName == null)
     return;
   if (fileName == "")
     fileName = "canvas-image";
-  
+
   // retrieve the canvas data
   let canvasContents = canvas.toDataURL(); // a data URL of the current canvas image
   let data = { image: canvasContents, date: Date.now() };
@@ -506,7 +534,7 @@ const doSave = () => {
   let file = new Blob([string], {
     type: 'application/json'
   });
-  
+
   // trigger a click event on an <a> tag to open the file explorer
   let a = document.createElement('a');
   a.href = URL.createObjectURL(file);
@@ -543,11 +571,11 @@ reader.onload = function () {
 
 //Functions for using the mouse to draw.
 const getMouse = (evt) => {
-	const mouse = {};
-	mouse.x = evt.pageX - evt.target.offsetLeft;
-	mouse.y = evt.pageY - evt.target.offsetTop;
+  const mouse = {};
+  mouse.x = evt.pageX - evt.target.offsetLeft;
+  mouse.y = evt.pageY - evt.target.offsetTop;
 
-	return mouse;
+  return mouse;
 };
 
 const doMousedown = (evt) => {

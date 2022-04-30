@@ -7,6 +7,7 @@
         <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+        <link rel="stylesheet" href="styles/main.css">
         <script src="src/main.js" type="module"></script>
         <title>Drawing!</title>
     </head>
@@ -17,9 +18,9 @@
         <div class="loading column is-vcentered" id="loading">Loading&#8230;<img src="/images/spinner.gif" alt="" class="image is-16x16 is-inline"></div>
 
         <div class="columns">
-            <div class="column is-offset-one-quarter">
-                <canvas id="view-canvas"></canvas>
-                <canvas style="display: none;" width="640" height="480" id="draw-canvas"></canvas>
+            <div class="column is-offset-one-quarter" id="canvas-holder">
+                <video autoplay></video>
+                <canvas width="640" height="480" id="view-canvas"></canvas>
             </div>
         </div>
         <p id="CurrentGuess"></p>
@@ -28,7 +29,7 @@
         <p class="column is-vcentered" id="score">Score: 0</p>
 
         <app-toolbar></app-toolbar>
-
+        <canvas style="display: none;"width="640" height="480" id="draw-canvas"></canvas>
         <script src="src/vid.js"></script>
     </body>
 </html>
