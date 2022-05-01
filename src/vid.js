@@ -112,13 +112,13 @@ function setup() {
         //videoElement.src = window.webkitURL.createObjectURL(stream); 
         videoElement.srcObject = stream;
       },
-      function (e) {
+      function () {
         console.log("error happened");
         alert("You have navigator.webkitGetUserMedia, but an error occurred");
 
       }
     );
-  };
+  }
   //set initial border
   drawBorder();
 
@@ -132,7 +132,7 @@ function setup() {
   canvas.height = videoElement.clientHeight;
   canvas.width = videoElement.clientWidth;
   guessWord = drawWords[Math.floor(Math.random() * drawWords.length)];
-  document.querySelector("#CurrentGuess").innerHTML = `${guessWord}`
+  document.querySelector("#CurrentGuess").innerHTML = `${guessWord}`;
   clearCanvas();
   //requestAnimationFrame(draw);
 }
@@ -143,7 +143,7 @@ function newGuess() {
   clearCanvas();
   score++;
   document.querySelector("#score").innerHTML = `Score: ${score}`;
-  document.querySelector("#CurrentGuess").innerHTML = `${guessWord}`
+  document.querySelector("#CurrentGuess").innerHTML = `${guessWord}`;
 }
 
 //Callback for posenet
