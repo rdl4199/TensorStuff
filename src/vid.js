@@ -89,7 +89,7 @@ function setup() {
     handpos = results;
   });
   move = true;
-  lineWidth = 1;
+  lineWidth = 20;
   strokeStyle = "black";
   fillStyle = "black";
   lineCap = "round";
@@ -120,8 +120,6 @@ function setup() {
   //    }
   //  );
   //};
-  //set initial border
-  drawBorder();
 
   canvas.onmousedown = doMousedown;
   canvas.onmousemove = doMousemove;
@@ -136,6 +134,9 @@ function setup() {
   document.querySelector("#CurrentGuess").innerHTML = `Draw : ${guessWord}`
   clearCanvas();
   //requestAnimationFrame(draw);
+
+  //set initial border
+  drawBorder();
 }
 
 //After the user manages to draw the certain thing given to them give them another and clear the canvas
