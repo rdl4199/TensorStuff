@@ -1,35 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/addons/p5.sound.min.js"></script>
-        <!-- <script src="https://unpkg.com/ml5@0.6.0/dist/ml5.min.js"></script> -->
-        <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-        <link rel="stylesheet" href="styles/main.css">
-        <script src="src/main.js" type="module"></script>
-        <title>Drawing!</title>
-    </head>
 
-    <body>
-        <app-navbar id="nav-app"></app-navbar>
-        
-        <div class="loading column is-vcentered">Loading&#8230;<img src="images/spinner.gif" alt="" class="image is-16x16 is-inline"></div>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/addons/p5.sound.min.js"></script>
+    <!-- <script src="https://unpkg.com/ml5@0.6.0/dist/ml5.min.js"></script> -->
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="src/main.js" type="module"></script>
+    <title>Drawing!</title>
+</head>
 
-        <div class="columns">
-            <div class="column is-offset-one-quarter" id="canvas-holder">
-                <video autoplay></video>
-                <canvas width="640" height="480" id="view-canvas"></canvas>
+<body>
+    <app-navbar id="nav-app"></app-navbar>
+
+    <div class="loading column is-vcentered" id="loading">Loading&#8230;<img src="/images/spinner.gif" alt=""
+            class="image is-16x16 is-inline"></div>
+
+    <div class="columns is-mobile is-centered">
+        <div class="column is-6" id="canvas-holder">
+            <canvas width="640" height="480" id="view-canvas"></canvas>
+            <canvas width="640" height="480" id="draw-canvas"></canvas>
+        </div>
+        <div class="column is-3">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="./images/draw.jpg" alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="content">
+                        How to draw: Put your palm facing the camera with your hands wide open. Move your hand to start
+                        drawing!
+                    </div>
+                </div>
             </div>
         </div>
-        <p id="CurrentGuess"></p>
-        <p class="column is-vcentered" id="paused"></p>
-        <p class="column is-vcentered" id="results"></p>
-        <p class="column is-vcentered" id="score">Score: 0</p>
+        <div class="column is-3">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="./images/stop.png" alt="Draw Command">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="content">
+                        How to Pause: Make a fist or move your hand out your cameras view! To
+                        start drawing again open your hand back up!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="columns is-mobile is-centered">
+        <div class="column is-7 is-primary">
+            <label class="tag is-link">
+                <p class="column is-vcentered" id="CurrentGuess"></p>
+                <p class="column is-vcentered" id="paused"></p>
+                <p class="column is-vcentered" id="results"></p>
+                <p class="column is-vcentered" id="score">Score: 0</p>
+            </label>
+        </div>
+        <div class="column is-6 is-primary">
+            <label class="tag is-link">
+                Point and click drawing with your mouse also works!
+            </label>
+        </div>
+    </div>
+    
 
-        <app-toolbar></app-toolbar>
-        <canvas style="display: none;"width="640" height="480" id="draw-canvas"></canvas>
-        <script src="src/vid.js"></script>
-    </body>
+    <app-toolbar></app-toolbar>
+    <script src="src/vid.js"></script>
+</body>
+
 </html>
