@@ -61,16 +61,21 @@
       <br><br><br>
 
       <h2 class="subtitle">NOTEWORTHY:</h2>
-      <p>
-        Hardware acceleration must be turned on to have a usable experience. 
-        Most likely, this would not work well on any mobile device simply because they would not have enough computing power.
-      </p>
-      <p>
-        <code>ctx.drawImage(video,0,0, video.width, video.height)</code> would throw an error, so we had to switch to using <a href="https://p5js.org/">p5.js</a>.
-      </p>
-      <p>
-        The handpose tracks the bottom of the index finger because it's more reliable, then translates the position up by a set amount to where the finger tip will be for most people.
-      </p>
+      <ul>
+        <li>
+          Hardware acceleration must be turned on to have a usable experience. 
+          Most likely, this would not work well on any mobile device simply because they would not have enough computing power.
+        </li>
+        <li>
+          <code>ctx.drawImage(video,0,0, video.width, video.height)</code> would throw an error, so we had to switch to using <a href="https://p5js.org/">p5.js</a>.
+        </li>
+        <li>
+          The handpose tracks the bottom of the index finger because it's more reliable, then translates the position up by a set amount to where the finger tip will be for most people.
+        </li>
+        <li>
+          Reese tried using webkit, but ended up using Createcapture in its place.
+        </li>
+      </ul>
 
       <br><br><br>
       <h2 class="subtitle">GRADING:</h2>
@@ -97,9 +102,11 @@
         <br><br><br>
 
 
-      <h2 class="subtitle">TODO:</h2>
+      <h2 class="subtitle">TODO: (Things we didn't get to.)</h2>
         <ul>
-          <li>Things we didn't get to.</li>
+          <li>Add more brush options.</li>
+          <li>Add way to switch brush options while using hands.</li>
+          <li>Add smoothing slider for hand drawing (hand drawing can end up jagged, more common on slower computers).</li>
         </ul>
         <br>
     </div>

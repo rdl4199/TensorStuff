@@ -73,6 +73,10 @@ video{
 li {
     list-style-type:circle;
     margin-left: 50px;
+    padding: 5px;
+}
+ul {
+    padding-top: 10px;
 }
 
 @media only screen and (max-width: 600px){
