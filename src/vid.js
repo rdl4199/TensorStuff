@@ -246,7 +246,7 @@ function draw() {
     //let PinkyTip = handpos[0].annotations.pinky[0];
     let ringTip = handpos[0].annotations.ringFinger[2];
     let fingerX = indexFingerTip[0];
-    let fingerY = indexFingerTip[1] - 100;
+    let fingerY = indexFingerTip[1] - 80;
 
     //Set the draw settings
     lineWidth = document.querySelector("app-toolbar").shadowRoot.querySelector("#linewidth-chooser").value;
