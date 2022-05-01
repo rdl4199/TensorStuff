@@ -67,13 +67,7 @@ Math.random(0, 1);
 let reader = new FileReader();
 
 //Basic setup stuff 
-function setup() {
-  //parse JSON file
-  var request = new XMLHttpRequest();
-   request.open("GET", "../data/data.json", false);
-   request.send(null);
-   drawWords = JSON.parse(request.responseText);
-  
+function setup() {  
   canvas = document.querySelector("#draw-canvas");
   ctxDraw = canvas.getContext("2d");
   canvasView = document.querySelector("#view-canvas");
