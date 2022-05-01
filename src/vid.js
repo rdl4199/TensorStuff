@@ -481,7 +481,7 @@ const doMousedown = (evt) => {
   ctxDraw.beginPath();
 
   //move to x,y of mouse
-  ctxDraw.lineTo(mouse.x, mouse.y);
+  ctxDraw.lineTo(mouse.x - 150, mouse.y - 40);
 };
 
 const doMousemove = (evt) => {
@@ -504,7 +504,7 @@ const doMousemove = (evt) => {
   ctxDraw.lineCap = "round"; //default is "butt"
 
   //draw line to x,y
-  ctxDraw.lineTo(mouse.x, mouse.y);
+  ctxDraw.lineTo(mouse.x - 150, mouse.y - 40);
 
   //stoke line
   ctxDraw.stroke();
