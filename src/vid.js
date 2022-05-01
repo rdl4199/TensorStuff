@@ -82,7 +82,8 @@ function setup() {
   lastConfidence = 100;
   video = createCapture(VIDEO);
   //document.querySelector("#canvas-video") = createCapture(VIDEO);
-  video.hide();
+  //video.hide();
+  
   poseNet = ml5.handpose(video, modelLoaded);
   poseNet.on('hand', results => {
     handpos = results;
@@ -99,26 +100,26 @@ function setup() {
   height = videoElement.clientHeight;
   canvas.width = video.width;
   canvas.height = videoElement.clientHeight;
-  if (navigator.webkitGetUserMedia != null) {
-    let options = {
-      video: true,
-      audio: false
-    };
-
+  //if (navigator.webkitGetUserMedia != null) {
+  //  let options = {
+  //    video: true,
+  //    audio: false
+  //  };
+//
     //request webcam access 
-    navigator.webkitGetUserMedia(options,
-      function (stream) {
-        //turn the stream into a magic URL 
-        //videoElement.src = window.webkitURL.createObjectURL(stream); 
-        videoElement.srcObject = stream;
-      },
-      function (e) {
-        console.log("error happened");
-        alert("You have navigator.webkitGetUserMedia, but an error occurred");
+    // navigator.webkitGetUserMedia(options,
+    //   function (stream) {
+    //     //turn the stream into a magic URL 
+    //     //videoElement.src = window.webkitURL.createObjectURL(stream); 
+    //     videoElement.srcObject = stream;
+    //   },
+    //   function (e) {
+    //     console.log("error happened");
+    //     alert("You have navigator.webkitGetUserMedia, but an error occurred");
 
-      }
-    );
-  };
+  //    }
+  //  );
+  //};
   //set initial border
   drawBorder();
 
@@ -132,7 +133,7 @@ function setup() {
   canvas.height = videoElement.clientHeight;
   canvas.width = videoElement.clientWidth;
   guessWord = drawWords[Math.floor(Math.random() * drawWords.length)];
-  document.querySelector("#CurrentGuess").innerHTML = `${guessWord}`
+  document.querySelector("#CurrentGuess").innerHTML = `Draw : ${guessWord}`
   clearCanvas();
   //requestAnimationFrame(draw);
 }
@@ -168,6 +169,7 @@ function modelLoaded() {
   amtOfLoads++;
   if (amtOfLoads > 1) {
     document.querySelector(".loading").style.display = "none";
+    document.querySelector("#canvas-holder").appendChild(document.querySelector("video"));
   }
 
   //canvasView = createCanvas(videoElement.clientWidth, videoElement.clientHeight);
@@ -195,7 +197,7 @@ function gotResult(error, results) {
   // Show the first label and confidence
   //label.textContent = `Label: ${results[0].label}`;
   //confidence.textContent = `Confidence: ${results[0].confidence.toFixed(4)}`;
-  lastView.innerHTML = `Results ${results[0].label} with Confidence: ${results[0].confidence.toFixed(4)}`;
+  lastView.innerHTML = `Best Guess: ${results[0].label} with Confidence: ${results[0].confidence.toFixed(4)}`;
   if (guessWord == results[0].label) {
     newGuess();
   }
@@ -235,10 +237,10 @@ function draw() {
     //Get all needed hand points
     let indexFingerTip = handpos[0].annotations.indexFinger[0];
     let thumbTip = handpos[0].annotations.thumb[0];
-    let PinkyTip = handpos[0].annotations.pinky[0];
+    //let PinkyTip = handpos[0].annotations.pinky[0];
     let ringTip = handpos[0].annotations.ringFinger[2];
     let fingerX = indexFingerTip[0];
-    let fingerY = indexFingerTip[1];
+    let fingerY = indexFingerTip[1] - 100;
 
     //Set the draw settings
     lineWidth = document.querySelector("app-toolbar").shadowRoot.querySelector("#linewidth-chooser").value;
@@ -271,10 +273,11 @@ function draw() {
       else if (!paused) {
         move = false;
         ctxDraw.beginPath();
-        ctxDraw.moveTo((640 - fingerX), fingerY)
+        ctxDraw.moveTo((640 - fingerX), fingerY);
         paused = true;
         document.querySelector("#paused").innerHTML = "Paused";
       }
+      document.querySelector("#paused").innerHTML = "Paused";
     }
     if (!paused) {
       if (move) {
@@ -309,10 +312,11 @@ function draw() {
   }
   else {
     paused = true;
+    document.querySelector("#paused").innerHTML = "Paused";
   }
   //ctxView.drawImage(video,0,0);
   //ctxView.globalAlpha = 0.5;
-  ctxView.drawImage(canvas,0,0, video.width, video.height);
+  //ctxView.drawImage(canvas,0,0, video.width, video.height);
   //image(canvas, 0, 0, canvas.width, canvas.height);
   //ctxView.globalAlpha = 1;
 }
@@ -327,117 +331,6 @@ const drawBorder = () => {
   ctxDraw.restore();
 };
 
-// /*Functions for UI*/
-// const doLineWidthChange = (evt) => {
-//   lineWidth = evt.target.value;
-// };
-
-// const doLineColorChange = (evt) => {
-//   strokeStyle = evt.target.value;
-// };
-
-// const doToolChange = () => {
-
-//   let currentTool = document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value;
-
-//   switch (currentTool) {
-//     case "tool-pencil":
-//       //Ungreys out stroke color box
-//       document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
-
-//       break;
-//     case "tool-eraser":
-//       //greys out stroke color box
-//       document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = true;
-
-//       //Adds 1px black border.
-//       drawBorder();
-
-//       break;
-//     case "tool-fill":
-//       //Ungreys out stroke color box
-//       document.querySelector("app-toolbar").shadowRoot.querySelectorAll("label")[1].querySelector("select").disabled = false;
-
-//       ctxDraw.fillStyle = document.querySelector("app-toolbar").shadowRoot.querySelector("#strokestyle-chooser").value;
-//       ctxDraw.fillRect(0, 0, canvas.width, canvas.height);
-
-//       //reset back to pencil being selected.
-//       document.querySelector("app-toolbar").shadowRoot.querySelector("#tool-chooser").value = "tool-pencil";
-
-//       break;
-//   }
-// };
-
-// //Clears ctxDraw
-// const doClear = () => {
-
-//   //https://www.w3schools.com/js/js_popup.asp
-
-//   if (window.confirm("Clear the image?")) {
-//     ctxDraw.clearRect(0, 0, ctxDraw.canvas.width, ctxDraw.canvas.height);
-//     ctxUser.clearRect(0, 0, ctxUser.canvas.width, ctxUser.canvas.height);
-//     //ctxMain.clearRect(0, 0, ctxMain.canvas.width, ctxMain.canvas.height);
-
-//     drawBorder();
-//   }
-// };
-
-// const doExport = () => {
-
-//   //https://www.w3schools.com/js/js_popup.asp
-
-//   if (window.confirm("Export the image?")) {
-//     // convert the canvas to a JPEG and download it
-//     // https://daily-dev-tips.com/posts/vanilla-javascript-save-canvas-as-an-image/
-//     const data = canvas.toDataURL("image/jpeg", 1.0);
-//     const link = document.createElement("a");
-//     link.download = "exported-image.jpg";
-//     link.href = data;
-//     link.click();
-//     link.remove();
-//   }
-// };
-// /*End Functions for UI*/
-
-
-// //Functions for using the mouse to draw.
-// const getMouse = (evt) => {
-// 	const mouse = {};
-// 	mouse.x = evt.pageX - evt.target.offsetLeft;
-// 	mouse.y = evt.pageY - evt.target.offsetTop;
-
-// 	return mouse;
-// };
-
-// const doMousedown = (evt) => {
-//   dragging = true;
-
-//   //get mouse location in canvas coords
-//   const mouse = getMouse(evt);
-
-//   //pencil
-//   ctxDraw.beginPath();
-
-//   //move to x,y of mouse
-//   ctxDraw.lineTo(mouse.x, mouse.y);
-// };
-
-// const doMousemove = (evt) => {
-//   //if mouse not down, bail
-//   if (!dragging) return;
-
-//   //get mouse location
-//   const mouse = getMouse(evt);
-
-// const drawBorder = () => {
-//     //Adds 1px black border.
-//     ctxDraw.save();
-//     ctxDraw.lineWidth = 1.0;
-//     ctxDraw.globalCompositeOperation="source-over";
-//     ctxDraw.strokeStyle = "black";
-//     ctxDraw.strokeRect(0,0,canvas.width, canvas.height);
-//     ctxDraw.restore();
-// };
 
 /*Functions for UI*/
 const doLineWidthChange = (evt) => {
@@ -563,7 +456,7 @@ reader.onload = function () {
   image.onload = function () {
     ctxDraw.clearRect(0, 0, canvas.width, canvas.height);
     ctxDraw.drawImage(image, 0, 0); // draw the new image to the screen
-  }
+  };
   image.src = data.image; // data.image contains the data URL
 };
 /*End Functions for UI*/
@@ -576,7 +469,7 @@ const getMouse = (evt) => {
   mouse.y = evt.pageY - evt.target.offsetTop;
 
   return mouse;
-};
+ };
 
 const doMousedown = (evt) => {
   dragging = true;

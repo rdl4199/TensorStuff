@@ -50,6 +50,12 @@ body{
     left: 5px;
     top:5px;
 }
+#draw-canvas{
+    opacity: 0.5;
+    position: absolute;
+    left: 5px;
+    top:5px;
+}
 video{
     position:absolute;
     left: 5px;
