@@ -123,10 +123,10 @@ function setup() {
   //set initial border
   drawBorder();
 
-  document.querySelector("#draw-canvas").onmousedown = doMousedown;
-  document.querySelector("#draw-canvas").onmousemove = doMousemove;
-  document.querySelector("#draw-canvas").onmouseup = doMouseup;
-  document.querySelector("#draw-canvas").onmouseout = doMouseout;
+  canvas.onmousedown = doMousedown;
+  canvas.onmousemove = doMousemove;
+  canvas.onmouseup = doMouseup;
+  canvas.onmouseout = doMouseout;
 
   lastView = document.querySelector("#results");
   doodleClassifier = ml5.imageClassifier('DoodleNet', modelLoaded);
@@ -182,7 +182,7 @@ function modelLoaded() {
 
 //Classify the canvas
 function classifyCanvas() {
-  doodleClassifier.classify(document.querySelector("#draw-canvas"), gotResult);
+  doodleClassifier.classify(canvas, gotResult);
 }
 
 //Whenever Canvas gets classify this is the callback
@@ -193,7 +193,7 @@ function gotResult(error, results) {
     console.error(error);
   }
   // The results are in an array ordered by confidence.
-  console.log(results);
+  //console.log(results);
   // Show the first label and confidence
   //label.textContent = `Label: ${results[0].label}`;
   //confidence.textContent = `Confidence: ${results[0].confidence.toFixed(4)}`;
@@ -463,10 +463,13 @@ reader.onload = function () {
 
 
 //Functions for using the mouse to draw.
+//https://www.geeksforgeeks.org/how-to-get-the-coordinates-of-a-mouse-click-on-a-canvas-element/
 const getMouse = (evt) => {
   const mouse = {};
-  mouse.x = evt.pageX - evt.target.offsetLeft;
-  mouse.y = evt.pageY - evt.target.offsetTop;
+  let rect = canvas.getBoundingClientRect();
+
+  mouse.x = evt.pageX - rect.left;
+  mouse.y = evt.pageY - rect.top;
 
   return mouse;
  };
@@ -481,7 +484,7 @@ const doMousedown = (evt) => {
   ctxDraw.beginPath();
 
   //move to x,y of mouse
-  ctxDraw.lineTo(mouse.x - 150, mouse.y - 40);
+  ctxDraw.lineTo(mouse.x, mouse.y);
 };
 
 const doMousemove = (evt) => {
@@ -504,7 +507,7 @@ const doMousemove = (evt) => {
   ctxDraw.lineCap = "round"; //default is "butt"
 
   //draw line to x,y
-  ctxDraw.lineTo(mouse.x - 150, mouse.y - 40);
+  ctxDraw.lineTo(mouse.x, mouse.y);
 
   //stoke line
   ctxDraw.stroke();
