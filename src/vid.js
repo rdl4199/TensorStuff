@@ -158,8 +158,11 @@ function newGuess() {
 //}
 
 function clearCanvas() {
+  ctxDraw.save();
+  ctxDraw.globalCompositeOperation = "source-over";
   ctxDraw.fillStyle = "#ebedef";
   ctxDraw.fillRect(0, 0, video.width, video.height);
+  ctxDraw.restore();
 }
 
 //When doodlenet loads set canvas height and width
@@ -179,6 +182,8 @@ function modelLoaded() {
   //canvas.className = "";
   //document.querySelector(".loading").style.display = "none";
   clearCanvas();
+
+  drawBorder();
 }
 
 //Classify the canvas
