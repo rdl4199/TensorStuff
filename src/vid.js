@@ -94,7 +94,7 @@ function OnFinishedLoad() {
   canvas.height = videoElement.clientHeight;
   canvas.width = videoElement.clientWidth;
   guessWord = drawWords[Math.floor(Math.random() * drawWords.length)];
-  document.querySelector("#CurrentGuess").innerHTML = `Draw : ${guessWord}`
+  document.querySelector("#current-guess").innerHTML = `Draw : ${guessWord}`
   clearCanvas();
   //requestAnimationFrame(draw);
 
@@ -108,7 +108,7 @@ function newGuess() {
   clearCanvas();
   score++;
   document.querySelector("#score").innerHTML = `Score: ${score}`;
-  document.querySelector("#CurrentGuess").innerHTML = `${guessWord}`;
+  document.querySelector("#current-guess").innerHTML = `${guessWord}`;
 }
 
 function clearCanvas() {
