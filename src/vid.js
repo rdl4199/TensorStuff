@@ -38,7 +38,6 @@ let height = 480;
 let paused = false;
 let dragging = false;
 let amtOfLoads = 0;
-Math.random(0, 1);
 let reader = new FileReader();
 
 //Basic setup stuff 
@@ -50,15 +49,6 @@ function setup() {
       console.log(data);
       OnFinishedLoad();
     })
-  //let xhttp = new XMLHttpRequest();
- // xhttp.onreadystatechange = function() {
-  //    if (this.readyState == 4 && this.status == 200) {
- //       drawWords = JSON.parse(xhttp.responseText).words;
- //       OnFinishedLoad();
- //     }
-  //};
-  //xhttp.open("GET", "data/data.json", true);
-  //xhttp.send();
 }
 
 //After JSON is gotten.
@@ -68,10 +58,7 @@ function OnFinishedLoad() {
   ctxDraw = canvas.getContext("2d");
   canvasView = document.querySelector("#view-canvas");
   ctxView = canvasView.getContext("2d");
-  //document.querySelector("#btn-clear").className = "button px-5 mx-2 is-pulled-right is-danger is-loading";
-  //document.querySelector("#btn-export").className = "button px-5 mx-1 is-pulled-right is-primary is-loading"
 
-  //canvas.className = "is-loading";
   // reset the transform-matrix
   lastX = 0;
   lastY = 0;
@@ -96,26 +83,6 @@ function OnFinishedLoad() {
   height = videoElement.clientHeight;
   canvas.width = video.width;
   canvas.height = videoElement.clientHeight;
-  //if (navigator.webkitGetUserMedia != null) {
-  //  let options = {
-  //    video: true,
-  //    audio: false
-  //  };
-//
-    //request webcam access 
-    // navigator.webkitGetUserMedia(options,
-    //   function (stream) {
-    //     //turn the stream into a magic URL 
-    //     //videoElement.src = window.webkitURL.createObjectURL(stream); 
-    //     videoElement.srcObject = stream;
-    //   },
-    //   function (e) {
-    //     console.log("error happened");
-    //     alert("You have navigator.webkitGetUserMedia, but an error occurred");
-
-  //    }
-  //  );
-  //};
 
   canvas.onmousedown = doMousedown;
   canvas.onmousemove = doMousemove;
@@ -144,15 +111,6 @@ function newGuess() {
   document.querySelector("#CurrentGuess").innerHTML = `${guessWord}`;
 }
 
-//Callback for posenet
-//function gotPoses(poses) {
-//console.log(poses);
-//  if (poses.length > 0) {
-//    pose = poses[0].pose;
-//    skeleton = poses[0].skeleton;
-//  }
-//}
-
 function clearCanvas() {
   ctxDraw.save();
   ctxDraw.globalCompositeOperation = "source-over";
@@ -174,11 +132,8 @@ function modelLoaded() {
     document.querySelector("#canvas-holder").appendChild(document.querySelector("video"));
   }
 
-  //canvasView = createCanvas(videoElement.clientWidth, videoElement.clientHeight);
   canvas.height = video.height;
   canvas.width = video.width;
-  //canvas.className = "";
-  //document.querySelector(".loading").style.display = "none";
   clearCanvas();
 
   drawBorder();
@@ -197,10 +152,7 @@ function gotResult(error, results) {
     console.error(error);
   }
   // The results are in an array ordered by confidence.
-  //console.log(results);
   // Show the first label and confidence
-  //label.textContent = `Label: ${results[0].label}`;
-  //confidence.textContent = `Confidence: ${results[0].confidence.toFixed(4)}`;
   lastView.innerHTML = `Best Guess: ${results[0].label} with Confidence: ${results[0].confidence.toFixed(4)}`;
   if (guessWord == results[0].label) {
     newGuess();
@@ -216,21 +168,6 @@ function gotResult(error, results) {
   }
 }
 function draw() {
-  //ctxMain.drawImage(video, 0, 0, 640, 480);
-
-  //Adds 1px black border.
-  //drawBorder();
-
-
-  // //circle border on width of drawing/erasing tool, dissapears when user begins to draw. (incomplete)
-  // ctxDraw.save();
-  // ctxDraw.strokeStyle = "black";
-  // ctxDraw.fillStyle = "none";
-  // ctxDraw.lineWidth = 5;
-  // ctxDraw.arc(mouse.x, mouse.y, 1, 0, 2 * Math.PI);
-  // ctxDraw.restore();
-
-
   //possible way to use JSON to store users current drawing,
   //then bring it back when they reload the page.
   //Would use the data.json file.
@@ -252,7 +189,6 @@ function draw() {
     ctxDraw.strokeStyle = strokeStyle;
     ctxDraw.fillStyle = fillStyle;
     ctxDraw.lineCap = "round";
-    //console.log((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])));
 
     //If the user is not pausing
     if ((Math.abs(thumbTip[0] - ringTip[0]) + Math.abs(thumbTip[1] - ringTip[1])) > 130) {
@@ -311,18 +247,11 @@ function draw() {
     afterPaused = false;
     ctxDraw.strokeStyle = strokeStyle;
     classifyCanvas();
-    //If the user touches their pinky and thumb together or atleast come close pause drawing
-    //Not using pythagrorean theorem bc its not that important
   }
   else {
     paused = true;
     document.querySelector("#paused").innerHTML = "Paused";
   }
-  //ctxView.drawImage(video,0,0);
-  //ctxView.globalAlpha = 0.5;
-  //ctxView.drawImage(canvas,0,0, video.width, video.height);
-  //image(canvas, 0, 0, canvas.width, canvas.height);
-  //ctxView.globalAlpha = 1;
 }
 
 const drawBorder = () => {
