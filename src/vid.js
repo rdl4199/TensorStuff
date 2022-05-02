@@ -157,7 +157,9 @@ function clearCanvas() {
   ctxDraw.save();
   ctxDraw.globalCompositeOperation = "source-over";
   ctxDraw.fillStyle = "#ebedef";
-  ctxDraw.fillRect(0, 0, video.width, video.height);
+  ctxDraw.beginPath();
+  ctxDraw.rect(0, 0, video.width, video.height)
+  ctxDraw.fill();
   ctxDraw.restore();
 }
 
@@ -329,7 +331,9 @@ const drawBorder = () => {
   ctxDraw.lineWidth = 1.0;
   ctxDraw.globalCompositeOperation = "source-over";
   ctxDraw.strokeStyle = "black";
-  ctxDraw.strokeRect(0, 0, canvas.width, canvas.height);
+  ctxDraw.beginPath();
+  ctxDraw.rect(0,0,canvas.width,canvas.height);
+  ctxDraw.stroke();
   ctxDraw.restore();
 };
 
@@ -369,7 +373,9 @@ const doToolChange = () => {
       ctxDraw.save();
       ctxDraw.fillStyle = document.querySelector("app-toolbar").shadowRoot.querySelector("#strokestyle-chooser").value;
       ctxDraw.globalCompositeOperation = "source-over";
-      ctxDraw.fillRect(0, 0, canvas.width, canvas.height);
+      ctxDraw.beginPath();
+      ctxDraw.rect(0, 0, canvas.width, canvas.height);
+      ctxDraw.fill();
       ctxDraw.restore();
 
       //reset back to pencil being selected.
