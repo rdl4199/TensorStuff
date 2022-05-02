@@ -43,16 +43,22 @@ let reader = new FileReader();
 
 //Basic setup stuff 
 function setup() {  
-
-  let xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        drawWords = JSON.parse(xhttp.responseText).words;
-        OnFinishedLoad();
-      }
-  };
-  xhttp.open("GET", "data/data.json", true);
-  xhttp.send();
+  fetch("./data/data.json")
+    .then(response => response.json())
+    .then(data => {
+      drawWords = data.words;
+      console.log(data);
+      OnFinishedLoad();
+    })
+  //let xhttp = new XMLHttpRequest();
+ // xhttp.onreadystatechange = function() {
+  //    if (this.readyState == 4 && this.status == 200) {
+ //       drawWords = JSON.parse(xhttp.responseText).words;
+ //       OnFinishedLoad();
+ //     }
+  //};
+  //xhttp.open("GET", "data/data.json", true);
+  //xhttp.send();
 }
 
 //After JSON is gotten.
